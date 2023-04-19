@@ -4,12 +4,16 @@
     "slug": "soundbeta",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/img/Logo.png",
     "userInterfaceStyle": "light",
+    "owner": "smarthivetech-soluion",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/img/Logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#121933"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "**/*"
@@ -19,12 +23,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/img/Logo.png",
+        "backgroundColor": "#121933"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/img/Logo.png"
     }
   }
 }
