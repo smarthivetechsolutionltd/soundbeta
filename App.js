@@ -22,18 +22,29 @@ const App = () => {
   return (
     <>
       <StatusBar />
+
       <NavigationContainer>
+
         <Stack.Navigator>
           <Stack.Screen name="onboarding" component={Onboarding}
             options={{ headerShown: false }} />
 
           {/* Auths */}
-          <Stack.Screen name="login" component={Login}
+          <Stack.Screen name="Login" component={Login}
             options={{ headerShown: false }} />
 
-          <Stack.Screen name="signup" component={Signup}
-            options={{ headerShown: false }} />
-
+          <Stack.Screen name="Signup" component={Signup}
+            options={{
+              title: 'Create Account',
+              headerStyle: {
+                backgroundColor: '#121933',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+/>
      
 
           {/* Contents */}

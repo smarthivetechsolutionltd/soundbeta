@@ -4,8 +4,11 @@ import {
   StyledContainer,
   InnerContainer,
   OnboardWrapper,
-  OnboardButton, 
+  OnboardButton,
+  GoogleOnboardButton,
+  LoginButton, 
   OnboardButtonText,
+  LoginButtonText,
   OnboardPageLogo,
   OnboardLogo,
 } from "./Styles";
@@ -14,14 +17,16 @@ import { useNavigation } from "@react-navigation/native";
 
 import { StatusBar } from "expo-status-bar";
 
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { AntDesign } from '@expo/vector-icons';
 
 function Onboarding() {
+
   const navigation = useNavigation();
 
   return (
     <>
       <StyledContainer>
+        
         <StatusBar style="dark" />
 
         <InnerContainer>
@@ -34,17 +39,20 @@ function Onboarding() {
           </OnboardLogo>
 
           <OnboardWrapper>
-            <OnboardButton onPress={() => navigation.navigate("signup")}>
+
+            <OnboardButton onPress={() => navigation.navigate("Signup")}>
               <OnboardButtonText>Sign Up</OnboardButtonText>
             </OnboardButton>
 
-            <OnboardButton onPress={() => navigation.navigate("employeeLogin")}>
+            <GoogleOnboardButton onPress={() => navigation.navigate("employeeLogin")}>
+              <AntDesign name="google" size={24} color="black" />
               <OnboardButtonText>Continue with Google</OnboardButtonText>
-            </OnboardButton>
+            </GoogleOnboardButton>
 
-            <OnboardButton onPress={() => navigation.navigate("serviceLogin")}>
-              <OnboardButtonText>Service Users</OnboardButtonText>
-            </OnboardButton>
+            <LoginButton onPress={() => navigation.navigate("serviceLogin")}>
+              <LoginButtonText>Login</LoginButtonText>
+            </LoginButton>
+
           </OnboardWrapper>
         </InnerContainer>
       </StyledContainer>
