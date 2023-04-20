@@ -25,15 +25,15 @@ function Signup() {
         <InnerContainer>
           {currentStep === 1 && (
             <FormView>
+
               <FormInput
                 value={email}
                 onChangeText={(text) => setEmail(text)}
                 label="Email Address"
                 placeholder="example@gmail.com"
-                placeholderTextColor={Hint}
                 keyboardType="email-address"
-                
               />
+              
               <Button title="Next" onPress={handleNextStep} />
             </FormView>
           )}

@@ -23,14 +23,16 @@ export const InnerContainer = styled.View`
   flex: 1;
   width: 100%;
   align-items: center;
-  height: 50%;
 `;
 
 export const FormView = styled.View`
 padding: 20px;
-
 `
 
 export const FormInput = styled.TextInput`
+color: ${TextColor};
+border: ${White};
+padding: 20px;
+width: 90%;
 `
 
