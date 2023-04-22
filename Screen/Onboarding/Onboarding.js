@@ -27,7 +27,7 @@ function Onboarding() {
     <>
       <StyledContainer>
         
-        <StatusBar style="dark" />
+        <StatusBar style="light" />
 
         <InnerContainer>
           
@@ -41,11 +41,11 @@ function Onboarding() {
           <OnboardWrapper>
 
             <OnboardButton onPress={() => navigation.navigate("Signup")}>
-              <OnboardButtonText>Sign Up</OnboardButtonText>
+              <OnboardButtonText>Sign Up (Free)</OnboardButtonText>
             </OnboardButton>
 
             <GoogleOnboardButton onPress={() => navigation.navigate("employeeLogin")}>
-              <AntDesign name="google" size={24} color="black" />
+              <AntDesign name="google" size={20} color="black" />
               <OnboardButtonText>Continue with Google</OnboardButtonText>
             </GoogleOnboardButton>
 

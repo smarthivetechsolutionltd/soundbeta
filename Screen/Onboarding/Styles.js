@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { StatusBar } from "react-native";
 import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 
 //colors
@@ -12,9 +12,8 @@ export const Colors = {
   Grey: "#ECEBFF",
 };
 
-const {  White, Primary, Secondary, TextColor, Grey } =
-
-  Colors;
+const {  White, Primary, Secondary, TextColor, Grey } = Colors;
+const statusBarHeight = StatusBar.currentHeight;
 
 export const StyledContainer = styled.View`
   flex: 1;
@@ -82,15 +81,12 @@ export const LoginButton = styled.TouchableOpacity`
 export const OnboardButtonText = styled.Text`
   color: ${TextColor};
   font-size: 16px;
-  font-weight: 900;
-}
+  font-weight: 600;
 `;
 
 export const LoginButtonText = styled.Text`
   color: ${White};
-  font-size: 20px;
-  font-weight: 900;
-
-}
+  font-size: 18px;
+  font-weight: 500;
 `;
 

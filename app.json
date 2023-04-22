@@ -6,11 +6,12 @@
     "orientation": "portrait",
     "icon": "./assets/img/Logo.png",
     "userInterfaceStyle": "light",
-    "owner": "smarthivetech-soluion",
+    "owner": "aoatstudios",
     "splash": {
-      "image": "./assets/img/Logo.png",
+      "image": "./assets/img/Logo2-01.png",
       "resizeMode": "contain",
-      "backgroundColor": "#121933"
+      "backgroundColor": "#121933",
+      "imageResizeMode": "contain"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,6 +23,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.app.soundbeta",
       "adaptiveIcon": {
         "foregroundImage": "./assets/img/Logo.png",
         "backgroundColor": "#121933"

@@ -1,6 +1,5 @@
 import styled from "styled-components";
-
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 
 //colors
 
@@ -8,11 +7,12 @@ export const Colors = {
   White: "#ffffff",
   Primary: "#121933",
   Secondary: "#A299FF",
+  InActive: "#8B8AC1",
   TextColor: "#121933",
   Grey: "#ECEBFF",
 };
 
-const {  White, Primary, Secondary, TextColor, Grey } = Colors;
+const { White, Primary, Secondary, TextColor, Grey, InActive } = Colors;
 
 export const StyledContainer = styled.View`
   flex: 1;
@@ -27,12 +27,115 @@ export const InnerContainer = styled.View`
 
 export const FormView = styled.View`
 padding: 20px;
+width: 100%;
+`
+
+export const TextView = styled.Text`
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  padding-bottom: 10px;
+`
+
+export const ButtonViewActive = styled.TouchableOpacity`
+  color: #fff;
+  background-color: ${Secondary};
+  padding: 10px;
+  width: 35%;
+  align-self: center;
+  margin-top: 25%;
+  border-radius: 20px;
+`
+export const BtnTxtActive = styled.Text`
+  color: #000;
+  font-size: 20px;
+  text-align: center;
+  font-size: 14px;
+`
+export const ButtonViewinActive = styled.TouchableOpacity`
+  color: #fff;
+  background-color: ${InActive};
+  padding: 10px;
+  width: 35%;
+  align-self: center;
+  margin-top: 25%;
+  border-radius: 20px;
+`
+export const BtnTxtinActive = styled.Text`
+  color: #000;
+  font-size: 20px;
+  text-align: center;
+  font-size: 14px;
+`
+
+export const SmallTxt = styled.Text`
+  color: #CCCCCC;
+  font-size: 10px;
+  margin-top: 15px
+`
+export const SmallTxtv2 = styled.Text`
+  color: #CCCCCC;
+  font-size: 10px;
+`
+
+export const SmallTxtWhite = styled.Text`
+  color: #fff;
+  font-size: 10px;
+  margin-top: 15px
 `
 
 export const FormInput = styled.TextInput`
 color: ${TextColor};
-border: ${White};
-padding: 20px;
-width: 90%;
+background-color: ${White};
+border-radius: 7px;
+font-size: 14px;
+padding: 10px;
+width: 100%;
+`
+export const FormPicker = styled.TouchableOpacity`
+background-color: ${White};
+border-radius: 7px;
+padding: 10px;
+width: 100%;
+`
+export const FormTxt = styled.Text`
+color: ${TextColor};
+font-size: 14px;
 `
 
+export const CreateButtonViewActive = styled.TouchableOpacity`
+  color: #fff;
+  background-color: ${Secondary};
+  padding: 10px;
+  width: 65%;
+  align-self: center;
+  margin-top: 25%;
+  border-radius: 20px;
+`
+export const CreateButtonViewinActive = styled.TouchableOpacity`
+  color: #fff;
+  background-color: ${InActive};
+  padding: 10px;
+  width: 65%;
+  align-self: center;
+  margin-top: 25%;
+  border-radius: 20px;
+`
+
+const styles = StyleSheet.create({
+  picker: {
+    backgroundColor: '#fff',
+    borderRadius: 7,
+    width: '100%',
+  },
+
+  flex: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: 20,
+  }
+});
+
+export default styles;

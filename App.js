@@ -10,6 +10,9 @@ import Onboarding from "./Screen/Onboarding/Onboarding";
 //Auth
 import Login from "./Screen/Auth/Login/Login";
 import Signup from "./Screen/Auth/Signup/Signup";
+import firebase from '@react-native-firebase/app';
+import firebaseConfig from './config/firebaseconfig.js';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +20,8 @@ const App = () => {
   
   SplashScreen.preventAutoHideAsync();
   setTimeout(SplashScreen.hideAsync, 1000);
-  const statusBarHeight = StatusBar.currentHeight;
+  firebase.initializeApp(firebaseConfig);
+
 
   return (
     <>
