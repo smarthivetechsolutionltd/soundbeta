@@ -11,17 +11,22 @@ import Onboarding from "./Screen/Onboarding/Onboarding";
 import Login from "./Screen/Auth/Login/Login";
 import Signup from "./Screen/Auth/Signup/Signup";
 import firebase from '@react-native-firebase/app';
-import firebaseConfig from './config/firebaseconfig';
-
+import InitPage from "./Screen/Pages/InitPage";
+// import firebaseconfig from "./config/firebaseconfig";
 
 const Stack = createNativeStackNavigator();
+// firebase.initializeApp(firebaseConfig);
 
 const App = () => {
-  
+
   SplashScreen.preventAutoHideAsync();
   setTimeout(SplashScreen.hideAsync, 1000);
-  firebase.initializeApp(firebaseConfig);
 
+  // if (firebase.apps.length === 0) {
+  //   firebase.initializeApp({
+  //     // Firebase configuration options
+  //   });
+  // }
 
   return (
     <>
@@ -35,7 +40,16 @@ const App = () => {
 
           {/* Auths */}
           <Stack.Screen name="Login" component={Login}
-            options={{ headerShown: false }} />
+            options={{
+              title: 'Login',
+              headerStyle: {
+                backgroundColor: '#121933',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }} />
 
           <Stack.Screen name="Signup" component={Signup}
             options={{
@@ -48,11 +62,14 @@ const App = () => {
                 fontWeight: 'bold',
               },
             }}
-/>
-     
+          />
+
+          <Stack.Screen name="InitPage" component={InitPage}
+            options={{ headerShown: false }} />
+
 
           {/* Contents */}
-          
+
         </Stack.Navigator>
       </NavigationContainer>
     </>

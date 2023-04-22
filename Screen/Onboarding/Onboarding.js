@@ -49,7 +49,7 @@ function Onboarding() {
               <OnboardButtonText>Continue with Google</OnboardButtonText>
             </GoogleOnboardButton>
 
-            <LoginButton onPress={() => navigation.navigate("serviceLogin")}>
+            <LoginButton onPress={() => navigation.navigate("Login")}>
               <LoginButtonText>Login</LoginButtonText>
             </LoginButton>
 
