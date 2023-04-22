@@ -11,7 +11,7 @@ import Onboarding from "./Screen/Onboarding/Onboarding";
 import Login from "./Screen/Auth/Login/Login";
 import Signup from "./Screen/Auth/Signup/Signup";
 import firebase from '@react-native-firebase/app';
-import firebaseConfig from './config/firebaseconfig.js';
+import firebaseConfig from './config/firebaseconfig';
 
 
 const Stack = createNativeStackNavigator();
