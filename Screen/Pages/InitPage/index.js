@@ -36,7 +36,7 @@ const InitPage = () => {
                     </View>
                 </View>
 
-                <TouchableOpacity onPress={console.log('skipped')} style={styles.skipBtn}>
+                <TouchableOpacity onPress={()=> navigation.navigate('HomePage')} style={styles.skipBtn}>
                     <Text>Skip</Text>
                 </TouchableOpacity>
             </View>

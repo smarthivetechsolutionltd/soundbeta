@@ -37,6 +37,23 @@ export const OnboardPageLogo = styled.Image`
   width: 100%;
   height: 100%;
 `;
+export const OnboardTextWrap = styled.View`
+  margin-top: -140px;
+  align-items: center;
+`
+
+export const OnboardTextLogo = styled.Image`
+  width: 56px;
+  height: 56px;
+  margin-bottom: 10px
+`;
+
+export const OnboardPageLogoTxt = styled.Text`
+  color: ${White};
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500
+`;
 
 export const OnboardWrapper = styled.View`
   flex: 1;

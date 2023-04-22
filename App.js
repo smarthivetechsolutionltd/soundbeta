@@ -10,8 +10,13 @@ import Onboarding from "./Screen/Onboarding/Onboarding";
 //Auth
 import Login from "./Screen/Auth/Login/Login";
 import Signup from "./Screen/Auth/Signup/Signup";
-import firebase from '@react-native-firebase/app';
+
+//pages
 import InitPage from "./Screen/Pages/InitPage";
+import HomePage from "./Screen/Pages/HomePage";
+
+//firebase
+import firebase from '@react-native-firebase/app';
 // import firebaseconfig from "./config/firebaseconfig";
 
 const Stack = createNativeStackNavigator();
@@ -65,6 +70,9 @@ const App = () => {
           />
 
           <Stack.Screen name="InitPage" component={InitPage}
+            options={{ headerShown: false }} />
+
+          <Stack.Screen name="HomePage" component={HomePage}
             options={{ headerShown: false }} />
 
 

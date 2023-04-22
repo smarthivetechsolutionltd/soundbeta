@@ -11,6 +11,9 @@ import {
   LoginButtonText,
   OnboardPageLogo,
   OnboardLogo,
+  OnboardPageLogoTxt,
+  OnboardTextWrap,
+  OnboardTextLogo
 } from "./Styles";
 
 import { useNavigation } from "@react-navigation/native";
@@ -34,8 +37,16 @@ function Onboarding() {
           <OnboardLogo>
             <OnboardPageLogo
               resizeMode="cover"
-              source={require("../../assets/img/landing-img.png")}
+              source={require("../../assets/img/artist.png")}
             />
+            <OnboardTextWrap>
+              <OnboardTextLogo
+                source={require("../../assets/img/Logowhite.png")}
+              />
+              <OnboardPageLogoTxt>Free Music.</OnboardPageLogoTxt>
+              <OnboardPageLogoTxt>Enjoy your Favourites.</OnboardPageLogoTxt>
+            </OnboardTextWrap>
+
           </OnboardLogo>
 
           <OnboardWrapper>
