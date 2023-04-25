@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import { Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Image, Text, TextInput, TouchableOpacity, View, ScrollView } from 'react-native'
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
+import LottieView from 'lottie-react-native';
 import styles from './Styles';
 
 const InitPage = () => {
@@ -13,7 +14,35 @@ const InitPage = () => {
         { artist: 'burna3', id: '4' },
         { artist: 'burna4', id: '5' },
         { artist: 'burna6', id: '6' },
-    ])
+    ]);
+
+    const [artists, setArtists] = useState([])
+    const [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+        getArtists();
+    }, []);
+
+    const getArtists = () => {
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'df57019a4bmshcb2cced679ec247p1f8ee4jsnb1ec827c7f23',
+                'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
+            }
+        };
+
+        fetch('https://spotify81.p.rapidapi.com/artists?ids=2w9zwq3AktTeYYMuhMjju8%2C5wyWp867LWGjFmYZXVSFnZ%2C2y1VzMKAa5nmfXKtJL9jnj%2C0L3wrFI3QcbXAvFL7IaPQX%2C6CPZWzcKiOKkHn4L2XI4i2%2C51DevdOxIJin6DB1FXJpD1', options)
+            .then(response => response.json())
+            .then(response => {
+                setArtists(response.artists);
+                if (response.artists.length > 0) {
+                    setLoaded(true);
+                }
+                // console.log(response);
+            })
+            .catch(err => console.error(err));
+    }
 
     return (
         <>
@@ -25,18 +54,37 @@ const InitPage = () => {
                     <TextInput
                         style={styles.textInput}
                         placeholder='Search' />
-                    
-                    <View style={styles.arrayContainer}>
-                        {artistList.map((index, key) => (
-                            <View key={key} style={styles.eachArrayContainer}>
-                                <View style={styles.artistImg}></View>
-                                <Text style={styles.artistName}>{index.artist }</Text>
+                    {loaded ? (
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                            alwaysBounceVertical={false}
+                        // horizontal={true}
+                        >
+
+                            <View style={styles.arrayContainer}>
+                                {artists.reverse().map((item, key) => (
+                                    <View key={key} style={styles.eachItem}>
+                                        <Image source={{ uri: item.images[0].url }} style={styles.imgCirc} />
+                                        <Text style={styles.textSmall}>{item.name}</Text>
+                                    </View>
+                                ))}
                             </View>
-                        ))}
-                    </View>
+
+                        </ScrollView>
+                    ) : (
+                            <View style={styles.centerinParent}>
+                                <Text style={styles.textSmall}>Please wait, Loading.....</Text>
+                                <LottieView
+                                    source={require('../../../assets/anim/loadingPlay.json')}
+                                    autoPlay
+                                    loop
+                                />
+                        </View>
+                    )}
+
                 </View>
 
-                <TouchableOpacity onPress={()=> navigation.navigate('HomePage')} style={styles.skipBtn}>
+                <TouchableOpacity onPress={() => navigation.navigate('HomePage')} style={styles.skipBtn}>
                     <Text>Skip</Text>
                 </TouchableOpacity>
             </View>

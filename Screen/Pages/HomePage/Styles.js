@@ -15,11 +15,16 @@ const { White, Primary, Secondary, TextColor, Grey, InActive } = Colors;
 const styles = StyleSheet.create({
 
     homepageContainer: {
-        height: '100%',
+        height: '84%',
         width: '100%',
         backgroundColor: Primary,
-        padding: 20,
+        // padding: 20,
         paddingTop: statusBarHeight,
+    },
+
+    homeinnerContainer: {
+               padding: 20,
+
     },
 
     flex: {
@@ -64,7 +69,8 @@ const styles = StyleSheet.create({
     textSmall: {
         color: White,
         fontSize: 12,
-        marginTop: 10
+        marginTop: 10,
+        width: 100,
     },
 
     flexRight: {
@@ -75,7 +81,24 @@ const styles = StyleSheet.create({
 
     flexRightItm: {
         marginRight: 18,
-    }
+    },
+
+    controlContainer: {
+        flex: 1,
+        // backgroundColor: Secondary,
+        backgroundColor: Primary,
+        width: '100%',
+        position: 'absolute',
+        bottom: 0,
+        height: '16%',
+        display: 'flex',
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+        alignContent: 'center',
+        alignItems: 'center',
+        // paddingBottom: 25,
+        justifyContent: 'space-between',
+    },
 
 });
 

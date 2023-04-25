@@ -14,21 +14,18 @@ const { White, Primary, Secondary, TextColor, Grey, InActive } = Colors;
 const styles = StyleSheet.create({
     navContainer: {
         flex: 1,
-        // backgroundColor: Secondary,
         width: '100%',
-        position: 'absolute',
-        bottom: 0,
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
         paddingLeft: 30,
         paddingRight: 30,
+        marginTop: 10,
         justifyContent: 'space-between',
     },
 
     eachNav: {
         alignItems: 'center',
-        padding: 10,
     },
 
     navTxt: {

@@ -55,11 +55,34 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
 
-    artistName: {
-        color: White,
-        textAlign: 'center',
-        marginTop: 7,
+    centerinParent: {
+        alignSelf: 'center',
+        height: '50%',
+        // marginTop: 100,
     },
+
+    eachItem: {
+        paddingBottom: 6,
+        // paddingLeft: 2,
+        paddingRight: 2,
+        marginBottom: 10,
+        alignItems: 'center',
+    },
+
+
+    imgCirc: {
+        height: 100,
+        width: 100,
+        borderRadius: 200,
+        backgroundColor: White,
+    },
+
+    textSmall: {
+        color: White,
+        fontSize: 12,
+        marginTop: 10
+    },
+
 
     artistImg: {
         backgroundColor: White,
