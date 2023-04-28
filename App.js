@@ -14,6 +14,8 @@ import Signup from "./Screen/Auth/Signup/Signup";
 //pages
 import InitPage from "./Screen/Pages/InitPage";
 import HomePage from "./Screen/Pages/HomePage";
+import Library from "./Screen/Pages/Library";
+
 
 //firebase
 import firebase from '@react-native-firebase/app';
@@ -75,7 +77,9 @@ const App = () => {
           <Stack.Screen name="HomePage" component={HomePage}
             options={{ headerShown: false }} />
 
-
+          <Stack.Screen name="Library" component={Library}
+            options={{ headerShown: false }} />
+          
           {/* Contents */}
 
         </Stack.Navigator>

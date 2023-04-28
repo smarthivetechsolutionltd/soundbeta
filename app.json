@@ -28,10 +28,19 @@
         "foregroundImage": "./assets/img/Logo.png",
         "backgroundColor": "#121933"
       },
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
       "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/img/Logo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "723653fd-583c-4f42-8af0-9693c07fc4d6"
+      }
     }
   }
 }

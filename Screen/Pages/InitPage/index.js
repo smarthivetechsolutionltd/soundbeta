@@ -27,7 +27,7 @@ const InitPage = () => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'df57019a4bmshcb2cced679ec247p1f8ee4jsnb1ec827c7f23',
+                'X-RapidAPI-Key': 'd46ad28ad5msh4d381300d03945bp151478jsn3a08154e08ba',
                 'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
             }
         };

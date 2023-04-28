@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Text, TouchableOpacity, View, ScrollView, Image } from 'react-native';
+import { Text, TouchableOpacity, View, ScrollView, Image, Button } from 'react-native';
 import styles from './Styles';
 import { useNavigation } from "@react-navigation/native";
 import BottomNav from '../BottomNav';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PlayerController from '../PlayerController';
+import { Audio } from 'expo-av';
 
-const HomePage = () => {
+const HomePage = (props) => {
+    const [sound, setSound] = useState(null);
+    const [play, setPlay] = useState(false);
+    const [fav, setFav] = useState(false);
+    const [fetched, setFetch] = useState(false);
+
+
     const [name, setName] = useState('Adams');
     const [vibes, setVibes] = useState([
         { img: 'images', name: 'Arya Star' },
@@ -16,19 +23,74 @@ const HomePage = () => {
     ]);
     const [artists, setArtists] = useState([]);
     const [playlist, setPlaylist] = useState([]);
-    const [playlist2, setPlaylist2] = useState([])
+    const [playlist2, setPlaylist2] = useState([]);
 
+    const [uri, setUri] = useState(null);
+    const [songName, setSongName] = useState(null);
+    const [songImg, setSongImg] = useState(null);
+    const [songArtist, setSongArtist] = useState(null);
 
     useEffect(() => {
         getArtists();
         getPlaylist();
     }, []);
 
+
+    const playselected = async (item) => {
+        setSongArtist(item.track.album.artists[0].name)
+        setSongImg(item.track.album.images[0].url)
+        setSongName(item.track.name)
+
+        try {
+            if (sound !== null) {
+                await sound.stopAsync();
+            }
+
+            const { sound: newSound } = await Audio.Sound.createAsync(
+                { uri: item.track.preview_url },
+                { shouldPlay: true }
+            );
+            setPlay(true)
+            setSound(newSound);
+        } catch (error) {
+            console.log('Failed to play sound: ' + error);
+        }
+    }
+
+    async function playSound() {
+        try {
+            if (sound !== null) {
+                await sound.stopAsync();
+            }
+
+            const { sound: newSound } = await Audio.Sound.createAsync(
+                { uri: uri },
+                { shouldPlay: true }
+            );
+            setPlay(true)
+            setSound(newSound);
+        } catch (error) {
+            console.log('Failed to play sound: ' + error);
+        }
+    }
+
+    async function pauseSound() {
+        try {
+            if (sound !== null) {
+                await sound.pauseAsync();
+                setPlay(false)
+            }
+        } catch (error) {
+            console.log('Failed to pause sound: ' + error);
+        }
+    }
+
+
     const getArtists = () => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'df57019a4bmshcb2cced679ec247p1f8ee4jsnb1ec827c7f23',
+                'X-RapidAPI-Key': 'd46ad28ad5msh4d381300d03945bp151478jsn3a08154e08ba',
                 'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
             }
         };
@@ -46,30 +108,39 @@ const HomePage = () => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'df57019a4bmshcb2cced679ec247p1f8ee4jsnb1ec827c7f23',
+                'X-RapidAPI-Key': 'd46ad28ad5msh4d381300d03945bp151478jsn3a08154e08ba',
                 'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
             }
         };
 
-        fetch('https://spotify81.p.rapidapi.com/playlist?id=37i9dQZF1DXcBWIGoYBM5M', options)
-            .then(response => response.json())
-            .then(response => {
-                setPlaylist(response.tracks.items)
-            }).then(() => {
-                fetch('https://spotify81.p.rapidapi.com/playlist?id=37i9dQZF1DX4WYpdgoIcn6', options)
-                    .then(response => response.json())
-                    .then(response => {
-                        setPlaylist2(response.tracks.items)
-                    })
-                    .catch(err => console.error(err));
-            })
-            .catch(err => console.error(err));
-    }
+        if (!fetched) {
+            fetch('https://spotify81.p.rapidapi.com/playlist?id=37i9dQZF1DXcBWIGoYBM5M', options)
+                .then(response => response.json())
+                .then(response => {
+                    setPlaylist(response.tracks.items);
+                    setUri(response.tracks.items[0].track.preview_url);
+                    setSongArtist(response.tracks.items[0].track.album.artists[0].name)
+                    setSongImg(response.tracks.items[0].track.album.images[0].url)
+                    setSongName(response.tracks.items[0].track.name)
+                }).then(() => {
+                    fetch('https://spotify81.p.rapidapi.com/playlist?id=37i9dQZF1DX4WYpdgoIcn6', options)
+                        .then(response => response.json())
+                        .then(response => {
+                            setPlaylist2(response.tracks.items);
+                            setFetch(true);
+                        })
+                        .catch(err => console.error(err));
+                })
+                .catch(err => console.error(err));
+        }
+    };
 
     return (
         <>
-
             <View style={styles.homepageContainer}>
+                {/* <Button title='play' onPress={()=>playSound()}/> */}
+                {/* <Button title='pause' onPress={()=>pauseSound()}/> */}
+
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     alwaysBounceVertical={false}
@@ -98,10 +169,10 @@ const HomePage = () => {
                                 horizontal={true}>
 
                                 {artists.reverse().map((item, key) => (
-                                    <View key={key} style={styles.eachItem}>
+                                    <TouchableOpacity key={key} style={styles.eachItem}>
                                         <Image source={{ uri: item.images[0].url }} style={styles.img} />
                                         <Text style={styles.textSmall}>{item.name}</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                 ))}
                             </ScrollView>
                         </View>
@@ -114,10 +185,14 @@ const HomePage = () => {
                                 horizontal={true}>
 
                                 {playlist2.slice(0, 10).map((item, key) => (
-                                    <View key={key} style={styles.eachItem}>
+                                    <TouchableOpacity key={key} style={styles.eachItem} onPress={() => {
+                                        playselected(item);
+                                        setUri(item.track.preview_url);
+
+                                    }}>
                                         <Image source={{ uri: item.track.album.images[0].url }} style={styles.img} />
                                         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.textSmall}>{item.track.name}</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                 ))}
                             </ScrollView>
                         </View>
@@ -157,7 +232,7 @@ const HomePage = () => {
                 </ScrollView>
             </View>
             <View style={styles.controlContainer}>
-                <PlayerController />
+                <PlayerController play={play} onPlay={playSound} onPause={pauseSound} artist={songArtist} name={songName} image={songImg} />
                 {/* <Text style={styles.txt}>PlayerController</Text> */}
                 <BottomNav />
             </View>

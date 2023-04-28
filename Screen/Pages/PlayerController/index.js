@@ -5,58 +5,36 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Audio } from 'expo-av';
 
 
-const PlayerController = () => {
-    const sound = new Audio.Sound();
-    const [play, setPlay] = useState(false);
-    const [fav, setFav] = useState(false);
-
-
-    const playBtn = () => {
-        if (play) {
-            setPlay(false);
-        } else {
-            setPlay(true)
-            playmusic()
-        }
-    }
-
-    const favBtn = () => {
-        if (fav) {
-            setFav(false);
-        } else {
-            setFav(true)
-
-        }
-    }
-
+const PlayerController = (props) => {
+    
     return (
         <View style={styles.controllContainer}>
             <View style={styles.flex}>
-                <Image style={styles.img} />
+                <Image style={styles.img} source={{ uri: props.image }} />
                 <View style={styles.block}>
-                    <Text style={styles.txtBig}>Yoga</Text>
-                    <Text style={styles.txt}>Asake</Text>
+                    <Text style={styles.txtBig} numberOfLines={1} ellipsizeMode="tail" >{ props.name}</Text>
+                    <Text style={styles.txt}>{props.artist}</Text>
                 </View>
             </View>
 
             <View style={styles.flex}>
-                <TouchableOpacity style={styles.eachItem}>
+                {/* <TouchableOpacity style={styles.eachItem}>
                     <Icon name="filter" size={25} color="#fff" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
 
 
-                {play ? (
-                    <TouchableOpacity style={styles.eachItem} onPress={() => playBtn()}>
+                {props.play ? (
+                    <TouchableOpacity style={styles.eachItem} onPress={() => props.onPause()}>
                         <Icon name="pause" size={25} color="#fff" />
                     </TouchableOpacity>
                 ) : (
-                        <TouchableOpacity style={styles.eachItem} onPress={() => playBtn()}>
+                        <TouchableOpacity style={styles.eachItem} onPress={() => props.onPlay()}>
                         <Icon name="play" size={25} color="#fff" />
                     </TouchableOpacity>
                 )}
 
-                {fav ? (
+                {props.fav ? (
                     <TouchableOpacity style={styles.eachItem} onPress={() => favBtn()}>
                         <Icon name="heart" size={25} color="#A10C0C" />
                     </TouchableOpacity>

@@ -49,16 +49,17 @@ const styles = StyleSheet.create({
     },
 
     txtBig: {
-        fontSize: 18,
+        fontSize: 14,
         color: White,
         textAlign: 'center',
-        fontWeight: 500
+        fontWeight: 500,
+        width: 120,
     },
 
     txt: {
         color: White,
         textAlign: 'center',
-        fontSize: 12,
+        fontSize: 10,
 
     },
 
