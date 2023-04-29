@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, ScrollView } from 'react-native'
+import { Text, View, ScrollView, TouchableOpacity } from 'react-native'
 import * as MediaLibrary from 'expo-media-library';
 // import MusicFiles from 'react-native-get-music-files';
+import Icon from 'react-native-vector-icons/Ionicons';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 
@@ -34,7 +35,7 @@ const Library = () => {
     }
 
     // async function getMediaFiles2() {
-        
+
     //     MusicFiles.getAll({
 
     //     }).then(tracks => {
@@ -47,20 +48,23 @@ const Library = () => {
     return (
         <>
             <View style={styles.container}>
+                <TouchableOpacity style={{paddingLeft: 10}}>
+                    <Icon name="chevron-back-outline" size={26} color="#fff" />
+                </TouchableOpacity>
 
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                alwaysBounceVertical={false}
-                horizontal={false}>
-                <Text>Library</Text>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    alwaysBounceVertical={false}
+                    horizontal={false}>
+                    {/* <Text>Library</Text> */}
                     <View>
                         {localMusic.map((item, key) => (
                             <View key={key}>
                                 <Text>{item.title.replace(/\.(mp3|aac|MP3)$/i, "")}</Text>
                             </View>
                         ))}
-                </View>
-            </ScrollView>
+                    </View>
+                </ScrollView>
             </View>
         </>
 
