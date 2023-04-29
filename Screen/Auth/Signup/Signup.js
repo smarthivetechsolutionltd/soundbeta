@@ -4,15 +4,29 @@ import { StatusBar } from "expo-status-bar";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker'; 
+ import {
+    getAuth,
+    createUserWithEmailAndPassword,
+  } from "firebase/auth";
+  import { initializeApp } from "firebase/app";
+  import { firebaseConfig } from "../config/Firebaseconfig";
+  
+  
+
 
 function Signup() {
+
   const [date, setDate] = useState(new Date());
   const [currentStep, setCurrentStep] = useState(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [DOB, setDOB] = useState("");
+
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -91,8 +105,16 @@ function Signup() {
 
   }
 
+
   const createAccount = () => {
-    console.log(name, ',', email, ',', password, ',', date.toDateString(), ',', genderlist)
+    createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      console.log("User account created");
+    })
+    .catch(() => {
+      console.log("error");
+    });
+    // console.log(name, ',', email, ',', password, ',', date.toDateString(), ',', )
   }
 
   return (
