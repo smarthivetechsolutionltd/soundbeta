@@ -3,13 +3,23 @@ import { View, Text } from 'react-native'
 import styles, { SmallTxtv2, StyledContainer, InnerContainer, FormView, FormInput, TextView, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite, Buttonborder, ButtonWhite } from "./Styles";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../config/Firebaseconfig";
+
 
 
 function Login() {
   const navigation = useNavigation();
-  const [email, setEmail] = useState("poriaspec@gmail.com");
-  const [password, setPassword] = useState("123456789");
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   const [BtnActive, setBtnActive] = useState(false);
+  
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
   const checkinput = (value) => {
     setPassword(value);
@@ -22,8 +32,16 @@ function Login() {
   }
 
   const login = () => {
-    console.log(email, '>>', password);
-    navigation.navigate("InitPage");
+    signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      navigation.navigate("InitPage");
+      // console.log("User is logged in");
+    })
+    .catch(() => {
+      console.log("error");
+    });
+    // console.log(email, '>>', password);
+    // navigation.navigate("InitPage");
   }
 
 
@@ -66,9 +84,9 @@ function Login() {
             </ButtonViewinActive>
           )}
 
-          <Buttonborder>
+          {/* <Buttonborder>
             <ButtonWhite>Log in without password</ButtonWhite>
-          </Buttonborder>
+          </Buttonborder> */}
         </InnerContainer>
       </StyledContainer>
     </>
