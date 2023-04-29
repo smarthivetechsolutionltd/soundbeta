@@ -84,9 +84,9 @@ function Login() {
             </ButtonViewinActive>
           )}
 
-          <Buttonborder>
+          {/* <Buttonborder>
             <ButtonWhite>Log in without password</ButtonWhite>
-          </Buttonborder>
+          </Buttonborder> */}
         </InnerContainer>
       </StyledContainer>
     </>
