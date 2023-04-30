@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { View, Text } from 'react-native'
-import styles, { ErrTxt, SmallTxtv2, StyledContainer, InnerContainer, FormView, FormInput, TextView, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite, Buttonborder, ButtonWhite } from "./Styles";
+import { View, Text, ToastAndroid } from 'react-native'
+import styles, { ErrTxt, ProgressDialog, StyledContainer, InnerContainer, FormView, FormInput, TextView, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite, Buttonborder, ButtonWhite } from "./Styles";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -11,7 +11,7 @@ import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../config/Firebaseconfig";
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import LottieView from 'lottie-react-native';
 
 
 function Login() {
@@ -19,7 +19,8 @@ function Login() {
   const [email, setEmail] = useState('aoatayo@gmail.com');
   const [password, setPassword] = useState('12345678');
   const [BtnActive, setBtnActive] = useState(false);
-  const [errorTxt, setErrorTxt] = useState('')
+  const [errorTxt, setErrorTxt] = useState('');
+  const [progressDialog, setProgressDialog] = useState(false)
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -35,12 +36,16 @@ function Login() {
   }
 
   const login = () => {
+    setProgressDialog(true)
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
         if (user.emailVerified) {
           navigation.navigate("InitPage");
-          console.log('Login successful')
+
+          console.log('Login successful');
+          ToastAndroid.show('Login successful', ToastAndroid.SHORT);
+
         } else {
           console.log('email not verified');
           setErrorTxt('Your email not verified, Please check your inbox/spam')
@@ -52,6 +57,7 @@ function Login() {
         await getDoc(doc(db, "users", user.uid)).then((doc) => {
           if (doc.exists) {
             const jsonString = JSON.stringify(doc.data());
+            setProgressDialog(false)
 
             AsyncStorage.setItem('userData', jsonString)
               .then(() => {
@@ -62,13 +68,29 @@ function Login() {
               });
           } else {
             console.log('No such document!');
+            setProgressDialog(false)
+
           }
         }).catch(err => {
           console.log(err);
+          setProgressDialog(false)
+
         })
       })
       .catch(err => {
         console.log("error", err);
+        const regex = /\(([^)]+)\)/;
+        const match = regex.exec(err);
+        const error = match[1];
+        setProgressDialog(false)
+
+        if (error === 'auth/wrong-password') {
+          setErrorTxt('Wrong email or Password')
+        }
+
+        if (error === 'auth/network-request-failed') {
+          setErrorTxt('Network error, Please check your internet..')
+        }
       });
   }
 
@@ -79,11 +101,25 @@ function Login() {
         <StatusBar style="light" />
 
         <InnerContainer>
+          {progressDialog && (
+            <ProgressDialog>
+            <View style={styles.centerinParent}>
+              <Text style={styles.textSmall}>Please wait while we log you in...</Text>
+                <LottieView
+                  source={require('../../../assets/anim/loadingPlay.json')}
+                  autoPlay
+                  loop
+                  style={styles.lottie}
+                />
+              </View>
+            </ProgressDialog>
+          )}
+          
 
           <ErrTxt>{errorTxt}</ErrTxt>
 
           <FormView>
-            <TextView>Email or username</TextView>
+            <TextView>Email</TextView>
 
             <FormInput
               value={email}

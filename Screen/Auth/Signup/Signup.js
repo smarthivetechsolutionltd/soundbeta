@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles, { SmallTxtv2, ErrTxt, StyledContainer, InnerContainer, FormView, FormInput, TextView, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite } from "./Styles";
+import styles, { SmallTxtv2, ErrTxt, StyledContainer, ProgressDialog, InnerContainer, FormView, FormInput, TextView, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite } from "./Styles";
 import { StatusBar } from "expo-status-bar";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
@@ -11,10 +11,11 @@ import {
   fetchSignInMethodsForEmail,
   sendEmailVerification,
 } from "firebase/auth";
-import { getFirestore ,collection, addDoc, setDoc, doc, getDoc} from "firebase/firestore"
+import { getFirestore, collection, addDoc, setDoc, doc, getDoc } from "firebase/firestore"
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../config/Firebaseconfig";
 import { useNavigation } from "@react-navigation/native";
+import LottieView from 'lottie-react-native';
 
 
 function Signup() {
@@ -25,19 +26,19 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorTxt, setErrorTxt] = useState('')
-
+  const [progressDialog, setProgressDialog] = useState(false)
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
-  
+
   const handleNextStep = () => {
 
     if (currentStep === 1) {
       fetchSignInMethodsForEmail(auth, email)
         .then((signInMethods) => {
           if (signInMethods.length === 0) {
-                setCurrentStep(currentStep + 1);
+            setCurrentStep(currentStep + 1);
           } else {
             setErrorTxt(`This email is already taken`);
           }
@@ -47,7 +48,7 @@ function Signup() {
         });
     }
 
-    if (currentStep > 1  ) {
+    if (currentStep > 1) {
       setCurrentStep(currentStep + 1);
 
     }
@@ -128,12 +129,14 @@ function Signup() {
 
 
   const createAccount = () => {
+    setProgressDialog(true)
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user
         sendEmailVerification(user).then(() => {
           console.log("Email verification sent");
-          
+
         })
 
         return user
@@ -146,15 +149,19 @@ function Signup() {
       })
       .then(async (user) => {
         try {
-         await setDoc(doc(db, "users", user.uid), {
+          await setDoc(doc(db, "users", user.uid), {
             name: name,
             email: email,
             uid: user.uid,
             DOB: DOB,
             gender: genderlist,
           });
+          setProgressDialog(false)
+
         } catch (e) {
           console.error("Error adding document: ", e);
+          setProgressDialog(false)
+
         }
       })
       .catch(err => {
@@ -164,8 +171,10 @@ function Signup() {
 
         if (error === 'auth/email-already-in-use') {
           setErrorTxt('Email already in use')
+
         }
 
+        setProgressDialog(false)
         console.log(err)
       });
     // console.log(name, ',', email, ',', password, ',', date.toDateString(), ',', )
@@ -290,64 +299,81 @@ function Signup() {
             </FormView>
           )}
           {currentStep === 5 && (
-            <FormView>
-              <TextView>What is your name?</TextView>
-
-              <FormInput
-                value={name}
-                onChangeText={(text) => { checkName(text) }}
-                label="Full Name"
-                placeholder="Adam Smith"
-                keyboardType="default"
-              />
-
-              <SmallTxt>This will appear on your profile.</SmallTxt>
-
-              <SmallTxt />
-              <SmallTxt>By creating an account, you agree to Soundbeat Terms and Policies</SmallTxt>
-              <SmallTxtWhite>Terms and Policies</SmallTxtWhite>
-
-              <SmallTxt />
-
-              <View style={styles.flex}>
-                <SmallTxtv2>I agree to the terms and conditions guiding users on Soundbeat.</SmallTxtv2>
-
-                <TouchableOpacity onPress={handleCheckbox}>
-                  <View
-                    style={{
-                      width: 20,
-                      height: 20,
-                      borderWidth: 1,
-                      borderColor: '#fff',
-                      alignItems: 'center',
-                      borderRadius: 20,
-                      justifyContent: 'center',
-                      marginLeft: 10,
-                    }}>
-                    {isChecked && (
-                      <View
-                        style={{
-                          width: 12,
-                          height: 12,
-                          borderRadius: 20,
-                          backgroundColor: '#fff',
-                        }}
-                      />
-                    )}
+            <View style={styles.fullwidth}>
+              {progressDialog && (
+                <ProgressDialog>
+                  <View style={styles.centerinParent}>
+                    <Text style={styles.textSmall}>Please wait while we log you in...</Text>
+                    <LottieView
+                      source={require('../../../assets/anim/loadingPlay.json')}
+                      autoPlay
+                      loop
+                      style={styles.lottie}
+                    />
                   </View>
-                </TouchableOpacity>
-              </View>
-
-              {BtnActive4 ? (
-                <CreateButtonViewActive onPress={createAccount} >
-                  <BtnTxtActive>Create an account</BtnTxtActive>
-                </CreateButtonViewActive>
-              ) : (
-                <CreateButtonViewinActive >
-                  <BtnTxtinActive>Create an account</BtnTxtinActive>
-                </CreateButtonViewinActive>
+                </ProgressDialog>
               )}
-            </FormView>
+
+              <FormView>
+                <TextView>What is your name?</TextView>
+
+                <FormInput
+                  value={name}
+                  onChangeText={(text) => { checkName(text) }}
+                  label="Full Name"
+                  placeholder="Adam Smith"
+                  keyboardType="default"
+                />
+
+                <SmallTxt>This will appear on your profile.</SmallTxt>
+
+                <SmallTxt />
+                <SmallTxt>By creating an account, you agree to Soundbeat Terms and Policies</SmallTxt>
+                <SmallTxtWhite>Terms and Policies</SmallTxtWhite>
+
+                <SmallTxt />
+
+                <View style={styles.flex}>
+                  <SmallTxtv2>I agree to the terms and conditions guiding users on Soundbeat.</SmallTxtv2>
+
+                  <TouchableOpacity onPress={handleCheckbox}>
+                    <View
+                      style={{
+                        width: 20,
+                        height: 20,
+                        borderWidth: 1,
+                        borderColor: '#fff',
+                        alignItems: 'center',
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                        marginLeft: 10,
+                      }}>
+                      {isChecked && (
+                        <View
+                          style={{
+                            width: 12,
+                            height: 12,
+                            borderRadius: 20,
+                            backgroundColor: '#fff',
+                          }}
+                        />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                </View>
+
+                {BtnActive4 ? (
+                  <CreateButtonViewActive onPress={createAccount} >
+                    <BtnTxtActive>Create an account</BtnTxtActive>
+                  </CreateButtonViewActive>
+                ) : (
+                  <CreateButtonViewinActive >
+                    <BtnTxtinActive>Create an account</BtnTxtinActive>
+                  </CreateButtonViewinActive>
+                )}
+              </FormView>
+            </View>
+
           )}
         </InnerContainer>
       </StyledContainer>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text, TouchableOpacity, View, ScrollView, Image, Button } from 'react-native';
+import { Text, TouchableOpacity, View, ScrollView, Image, Button, BackHandler, ToastAndroid } from 'react-native';
 import styles from './Styles';
 import { useNavigation } from "@react-navigation/native";
 import BottomNav from '../BottomNav';
@@ -47,6 +47,7 @@ const HomePage = (props) => {
     function handleRefresh() {
         getUserData().then((dataJSON) => {
             setUserData(dataJSON);
+            setName(dataJSON.name.split(' ')[1])
         });
     };
 
@@ -163,6 +164,29 @@ const HomePage = (props) => {
         }
     };
 
+    const [lastBackPressTime, setLastBackPressTime] = useState(0);
+
+//   handle backpress close app
+//   useEffect(() => {
+//     const backHandler = BackHandler.addEventListener(
+//       'hardwareBackPress',
+//       () => {
+//         const currentTime = new Date().getTime();
+//         if (currentTime - lastBackPressTime <= 1000) {
+//           BackHandler.exitApp();
+//           return true;
+//         }
+//         setLastBackPressTime(currentTime);
+//         ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
+//         return true;
+//       }
+//     );
+
+//     return () => {
+//       backHandler.remove();
+//     };
+//   }, [lastBackPressTime]);
+
     return (
         <>
             <View style={styles.homepageContainer}>
@@ -175,7 +199,7 @@ const HomePage = (props) => {
                     horizontal={false}>
                     <View style={styles.homeinnerContainer}>
                         <View style={styles.flex}>
-                            <Text style={styles.welcTxt}>Welcome, !</Text>
+                            <Text style={styles.welcTxt}>Welcome, {name.split(' ')[1]}!</Text>
 
                             <View style={styles.flexRight}>
                                 <TouchableOpacity style={styles.flexRightItm}>

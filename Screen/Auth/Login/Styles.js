@@ -43,6 +43,15 @@ export const ErrTxt = styled.Text`
   font-weight: 500;
 `
 
+export const ProgressDialog = styled.View`
+  background-color: #00000080;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  justify-content: center;
+  z-index: 1000;
+`
+
 export const Buttonborder = styled.TouchableOpacity`
   color: #fff;
   padding: 10px;
@@ -159,7 +168,31 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         marginTop: 20,
-    }
+  },
+    
+  centerinParent: {
+    alignSelf: 'center',
+    height: 200,
+    padding: 20,
+    width: 250,
+    borderRadius: 10,
+    backgroundColor: '#fff'
+    // marginTop: 100,
+  },
+
+  textSmall: {
+    color: '#000',
+    fontSize: 12,
+    marginTop: 10,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+
+  lottie: {
+    width: '60%',
+    alignSelf: 'center',
+
+  },
 });
 
 export default styles;
