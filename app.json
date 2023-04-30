@@ -20,8 +20,13 @@
       "**/*"
     ],
     "ios": {
+      "package": "com.app.soundbeta",
       "supportsTablet": true,
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "android": {
       "package": "com.app.soundbeta",
