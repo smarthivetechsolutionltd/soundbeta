@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native'
-import styles, { SmallTxtv2, StyledContainer, InnerContainer, FormView, FormInput, TextView, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite, Buttonborder, ButtonWhite } from "./Styles";
+import styles, { ErrTxt, SmallTxtv2, StyledContainer, InnerContainer, FormView, FormInput, TextView, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite, Buttonborder, ButtonWhite } from "./Styles";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -17,6 +17,7 @@ function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [BtnActive, setBtnActive] = useState(false);
+  const [ errorTxt, setErrorTxt] = useState('')
   
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -38,12 +39,13 @@ function Login() {
           navigation.navigate("InitPage");
           console.log('Login successful')
         } else {
-          console.log('email not verified')
+          console.log('email not verified');
+          setErrorTxt('Your email not verified, Please check your inbox/spam')
         }
       // console.log("User is logged in");
     })
-    .catch(() => {
-      console.log("error");
+    .catch(err => {
+      console.log("error", err);
     });
     // console.log(email, '>>', password);
     // navigation.navigate("InitPage");
@@ -57,9 +59,11 @@ function Login() {
 
         <InnerContainer>
 
+          <ErrTxt>{errorTxt}</ErrTxt>
+
           <FormView>
             <TextView>Email or username</TextView>
-
+            
             <FormInput
               value={email}
               onChangeText={(text) => { setEmail(text) }}

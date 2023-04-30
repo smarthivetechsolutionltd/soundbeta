@@ -37,6 +37,12 @@ export const TextView = styled.Text`
   padding-bottom: 10px;
 `
 
+export const ErrTxt = styled.Text`
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+`
+
 export const Buttonborder = styled.TouchableOpacity`
   color: #fff;
   padding: 10px;
