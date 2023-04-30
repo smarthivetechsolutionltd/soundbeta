@@ -4,9 +4,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import "expo-dev-client"
-// import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth"
-// import {initializeApp} from "firebase/app"
-// import { firebaseConfig } from "./config/firebaseconfig";
 
 //screens
 import Onboarding from "./Screen/Onboarding/Onboarding";
@@ -31,8 +28,6 @@ const App = () => {
 
   SplashScreen.preventAutoHideAsync();
   setTimeout(SplashScreen.hideAsync, 1000);
-
-
 
   return (
     <>

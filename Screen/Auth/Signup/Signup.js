@@ -4,19 +4,20 @@ import { StatusBar } from "expo-status-bar";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-picker/picker'; 
- import {
-    getAuth,
-    createUserWithEmailAndPassword,
-  } from "firebase/auth";
-  import { initializeApp } from "firebase/app";
-  import { firebaseConfig } from "../config/Firebaseconfig";
-  
-  
+import { Picker } from '@react-native-picker/picker';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
+  sendEmailVerification,
+} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../config/Firebaseconfig";
+import { useNavigation } from "@react-navigation/native";
 
 
 function Signup() {
-
+  const navigation = useNavigation();
   const [date, setDate] = useState(new Date());
   const [currentStep, setCurrentStep] = useState(1);
   const [name, setName] = useState("");
@@ -29,7 +30,25 @@ function Signup() {
   const auth = getAuth(app);
 
   const handleNextStep = () => {
-    setCurrentStep(currentStep + 1);
+
+    if (currentStep === 1) {
+      fetchSignInMethodsForEmail(auth, email)
+        .then((signInMethods) => {
+          if (signInMethods.length === 0) {
+                setCurrentStep(currentStep + 1);
+          } else {
+            console.log(`This email is already taken`);
+          }
+        })
+        .catch((error) => {
+          console.log(`Failed to fetch sign-in methods: ${error}`);
+        });
+    }
+
+    if (currentStep > 1  ) {
+      setCurrentStep(currentStep + 1);
+
+    }
   };
 
   const handlePrevStep = () => {
@@ -108,12 +127,29 @@ function Signup() {
 
   const createAccount = () => {
     createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      console.log("User account created");
-    })
-    .catch(() => {
-      console.log("error");
-    });
+      .then((userCredentials) => {
+        const user = userCredentials.user
+        sendEmailVerification(user).then(() => {
+          console.log("Email verification sent");
+
+        })
+      })
+      .then(() => {
+        navigation.navigate("Login")
+        console.log("User account created");
+
+      })
+      .catch(err => {
+        // const regex = /\(([^)]+)\)/;
+        // const match = regex.exec(err);
+        // const error = match[1];
+
+        // if (error === 'auth/email-already-in-use') {
+        //   console.log('Email already in use')
+        // }
+
+        console.log(err)
+      });
     // console.log(name, ',', email, ',', password, ',', date.toDateString(), ',', )
   }
 

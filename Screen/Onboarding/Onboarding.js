@@ -96,7 +96,7 @@ function Onboarding() {
                 <OnboardButtonText>Sign Up (Free)</OnboardButtonText>
               </OnboardButton>
 
-              <GoogleOnboardButton onPress={() => navigation.navigate("employeeLogin")}>
+              <GoogleOnboardButton onPress={() => navigation.navigate("googlesignin")}>
                 <AntDesign name="google" size={20} color="black" />
                 <OnboardButtonText>Continue with Google</OnboardButtonText>
               </GoogleOnboardButton>

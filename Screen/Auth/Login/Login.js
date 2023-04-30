@@ -23,8 +23,7 @@ function Login() {
 
   const checkinput = (value) => {
     setPassword(value);
-
-    if (email.length > 0 && password.length >= 8) {
+    if (email.length > 0 && value.length >= 8) {
       setBtnActive(true)
     } else {
       setBtnActive(false);
@@ -33,8 +32,14 @@ function Login() {
 
   const login = () => {
     signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      navigation.navigate("InitPage");
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        if (user.emailVerified) {
+          navigation.navigate("InitPage");
+          console.log('Login successful')
+        } else {
+          console.log('email not verified')
+        }
       // console.log("User is logged in");
     })
     .catch(() => {
