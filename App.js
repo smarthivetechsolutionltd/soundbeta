@@ -16,6 +16,7 @@ import Signup from "./Screen/Auth/Signup/Signup";
 import InitPage from "./Screen/Pages/InitPage";
 import HomePage from "./Screen/Pages/HomePage";
 import Library from "./Screen/Pages/Library";
+import Settings from "./Screen/Pages/Settings";
 
 
 //firebase
@@ -74,6 +75,8 @@ const App = () => {
           <Stack.Screen name="Library" component={Library}
             options={{ headerShown: false }} />
           
+          <Stack.Screen name="Settings" component={Settings}
+            options={{ headerShown: false }} />
           {/* Contents */}
 
         </Stack.Navigator>

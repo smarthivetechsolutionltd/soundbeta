@@ -72,7 +72,7 @@ export const ButtonViewActive = styled.TouchableOpacity`
 `
 export const BtnTxtActive = styled.Text`
   color: #000;
-  font-size: 20px;
+  font-size: 25px;
   text-align: center;
   font-size: 14px;
 `
@@ -87,7 +87,7 @@ export const ButtonViewinActive = styled.TouchableOpacity`
 `
 export const BtnTxtinActive = styled.Text`
   color: #000;
-  font-size: 20px;
+  font-size: 25px;
   text-align: center;
   font-size: 14px;
 `

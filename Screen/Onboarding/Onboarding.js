@@ -95,11 +95,11 @@ function Onboarding() {
               <OnboardButton onPress={() => navigation.navigate("Signup")}>
                 <OnboardButtonText>Sign Up (Free)</OnboardButtonText>
               </OnboardButton>
-
+{/* 
               <GoogleOnboardButton onPress={() => navigation.navigate("googlesignin")}>
                 <AntDesign name="google" size={20} color="black" />
                 <OnboardButtonText>Continue with Google</OnboardButtonText>
-              </GoogleOnboardButton>
+              </GoogleOnboardButton> */}
 
               <LoginButton onPress={() => navigation.navigate("Login")}>
                 <LoginButtonText>Login</LoginButtonText>
