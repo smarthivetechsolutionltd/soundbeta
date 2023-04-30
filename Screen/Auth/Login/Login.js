@@ -41,7 +41,7 @@ function Login() {
       .then((userCredentials) => {
         const user = userCredentials.user;
         if (user.emailVerified) {
-          navigation.navigate("InitPage");
+          navigation.navigate("HomePage");
 
           console.log('Login successful');
           ToastAndroid.show('Login successful', ToastAndroid.SHORT);
