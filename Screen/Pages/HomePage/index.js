@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Text, TouchableOpacity, View, ScrollView, Image, Button, BackHandler, ToastAndroid } from 'react-native';
 import styles from './Styles';
-import { useNavigation } from "@react-navigation/native";
 import BottomNav from '../BottomNav';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PlayerController from '../PlayerController';
 import { Audio } from 'expo-av';
 import { useIsFocused } from '@react-navigation/native';
 import { getUserData } from '../../Auth/config/userData';
+import { useNavigation } from "@react-navigation/native";
 
 
 const HomePage = (props) => {
+    const navigation = useNavigation();
     const [sound, setSound] = useState(null);
     const [play, setPlay] = useState(false);
     const [fav, setFav] = useState(false);
@@ -202,11 +203,11 @@ const HomePage = (props) => {
                             <Text style={styles.welcTxt}>Welcome, {name.split(' ')[1]}!</Text>
 
                             <View style={styles.flexRight}>
-                                <TouchableOpacity style={styles.flexRightItm}>
+                                {/* <TouchableOpacity style={styles.flexRightItm}>
                                     <Icon name="notifications" size={20} color="#fff" />
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
 
-                                <TouchableOpacity style={styles.flexRightItm}>
+                                <TouchableOpacity style={styles.flexRightItm} onPress={() => navigation.navigate("Settings")}>
                                     <Icon name="settings" size={20} color="#fff" />
                                 </TouchableOpacity>
 

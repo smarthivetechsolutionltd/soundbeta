@@ -16,8 +16,8 @@ import LottieView from 'lottie-react-native';
 
 function Login() {
   const navigation = useNavigation();
-  const [email, setEmail] = useState('aoatayo@gmail.com');
-  const [password, setPassword] = useState('12345678');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [BtnActive, setBtnActive] = useState(false);
   const [errorTxt, setErrorTxt] = useState('');
   const [progressDialog, setProgressDialog] = useState(false)
