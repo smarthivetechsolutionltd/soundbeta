@@ -6,13 +6,16 @@ import BottomNav from '../BottomNav';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PlayerController from '../PlayerController';
 import { Audio } from 'expo-av';
+import { useIsFocused } from '@react-navigation/native';
+import { getUserData } from '../../Auth/config/userData';
+
 
 const HomePage = (props) => {
     const [sound, setSound] = useState(null);
     const [play, setPlay] = useState(false);
     const [fav, setFav] = useState(false);
     const [fetched, setFetch] = useState(false);
-
+    const isFocused = useIsFocused();
 
     const [name, setName] = useState('Adams');
     const [vibes, setVibes] = useState([
@@ -29,13 +32,25 @@ const HomePage = (props) => {
     const [songName, setSongName] = useState(null);
     const [songImg, setSongImg] = useState(null);
     const [songArtist, setSongArtist] = useState(null);
+    const [userData, setUserData] = useState([]);
+
 
     useEffect(() => {
         getArtists();
         getPlaylist();
-    }, []);
+        
+        if (isFocused) {
+            handleRefresh();
+        }
+    }, [isFocused]);
 
+    function handleRefresh() {
+        getUserData().then((dataJSON) => {
+            setUserData(dataJSON);
+        });
+    };
 
+    const [lastPlaybackPosition, setLastPlaybackPosition] = useState(0);
     const playselected = async (item) => {
         setSongArtist(item.track.album.artists[0].name)
         setSongImg(item.track.album.images[0].url)
@@ -60,15 +75,24 @@ const HomePage = (props) => {
     async function playSound() {
         try {
             if (sound !== null) {
-                await sound.stopAsync();
+                const status = await sound.getStatusAsync();
+                if (status.isLoaded && !status.isPlaying) {
+                    if (lastPlaybackPosition !== null) {
+                        await sound.playFromPositionAsync(lastPlaybackPosition);
+                    } else {
+                        await sound.playAsync();
+                    }
+                }
+            } else {
+                const { sound: newSound } = await Audio.Sound.createAsync(
+                    { uri: uri },
+                    { shouldPlay: true }
+                );
+                setSound(newSound);
+
             }
 
-            const { sound: newSound } = await Audio.Sound.createAsync(
-                { uri: uri },
-                { shouldPlay: true }
-            );
             setPlay(true)
-            setSound(newSound);
         } catch (error) {
             console.log('Failed to play sound: ' + error);
         }
@@ -77,8 +101,12 @@ const HomePage = (props) => {
     async function pauseSound() {
         try {
             if (sound !== null) {
-                await sound.pauseAsync();
-                setPlay(false)
+                const status = await sound.getStatusAsync();
+                if (status.isLoaded && status.isPlaying) {
+                    setLastPlaybackPosition(status.positionMillis); // Save the last playback position
+                    await sound.pauseAsync();
+                    setPlay(false);
+                }
             }
         } catch (error) {
             console.log('Failed to pause sound: ' + error);
@@ -147,7 +175,7 @@ const HomePage = (props) => {
                     horizontal={false}>
                     <View style={styles.homeinnerContainer}>
                         <View style={styles.flex}>
-                            <Text style={styles.welcTxt}>Welcome, {name}!</Text>
+                            <Text style={styles.welcTxt}>Welcome, !</Text>
 
                             <View style={styles.flexRight}>
                                 <TouchableOpacity style={styles.flexRightItm}>

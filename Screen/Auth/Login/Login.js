@@ -9,18 +9,21 @@ import {
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../config/Firebaseconfig";
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
 function Login() {
   const navigation = useNavigation();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState('aoatayo@gmail.com');
+  const [password, setPassword] = useState('12345678');
   const [BtnActive, setBtnActive] = useState(false);
-  const [ errorTxt, setErrorTxt] = useState('')
-  
+  const [errorTxt, setErrorTxt] = useState('')
+
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
   const checkinput = (value) => {
     setPassword(value);
@@ -42,13 +45,31 @@ function Login() {
           console.log('email not verified');
           setErrorTxt('Your email not verified, Please check your inbox/spam')
         }
-      // console.log("User is logged in");
-    })
-    .catch(err => {
-      console.log("error", err);
-    });
-    // console.log(email, '>>', password);
-    // navigation.navigate("InitPage");
+        // console.log("User is logged in");
+        return user
+      })
+      .then(async (user) => {
+        await getDoc(doc(db, "users", user.uid)).then((doc) => {
+          if (doc.exists) {
+            const jsonString = JSON.stringify(doc.data());
+
+            AsyncStorage.setItem('userData', jsonString)
+              .then(() => {
+                console.log('Data stored in local storage');
+              })
+              .catch(error => {
+                console.log('Error storing data in local storage', error);
+              });
+          } else {
+            console.log('No such document!');
+          }
+        }).catch(err => {
+          console.log(err);
+        })
+      })
+      .catch(err => {
+        console.log("error", err);
+      });
   }
 
 
@@ -63,7 +84,7 @@ function Login() {
 
           <FormView>
             <TextView>Email or username</TextView>
-            
+
             <FormInput
               value={email}
               onChangeText={(text) => { setEmail(text) }}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles, { SmallTxtv2, StyledContainer, InnerContainer, FormView, FormInput, TextView, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite } from "./Styles";
+import styles, { SmallTxtv2, ErrTxt, StyledContainer, InnerContainer, FormView, FormInput, TextView, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite } from "./Styles";
 import { StatusBar } from "expo-status-bar";
 import Icon from 'react-native-vector-icons/Ionicons';
 import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
@@ -11,6 +11,7 @@ import {
   fetchSignInMethodsForEmail,
   sendEmailVerification,
 } from "firebase/auth";
+import { getFirestore ,collection, addDoc, setDoc, doc, getDoc} from "firebase/firestore"
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../config/Firebaseconfig";
 import { useNavigation } from "@react-navigation/native";
@@ -18,17 +19,18 @@ import { useNavigation } from "@react-navigation/native";
 
 function Signup() {
   const navigation = useNavigation();
-  const [date, setDate] = useState(new Date());
+  const [DOB, setDOB] = useState(new Date());
   const [currentStep, setCurrentStep] = useState(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [DOB, setDOB] = useState("");
+  const [errorTxt, setErrorTxt] = useState('')
 
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-
+  const db = getFirestore(app);
+  
   const handleNextStep = () => {
 
     if (currentStep === 1) {
@@ -37,7 +39,7 @@ function Signup() {
           if (signInMethods.length === 0) {
                 setCurrentStep(currentStep + 1);
           } else {
-            console.log(`This email is already taken`);
+            setErrorTxt(`This email is already taken`);
           }
         })
         .catch((error) => {
@@ -108,9 +110,9 @@ function Signup() {
   }
 
   const pickedDate = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate || DOB;
     setDatePicker(false);
-    setDate(currentDate);
+    setDOB(currentDate);
     // console.log(currentDate);
   }
 
@@ -131,22 +133,38 @@ function Signup() {
         const user = userCredentials.user
         sendEmailVerification(user).then(() => {
           console.log("Email verification sent");
-
+          
         })
+
+        return user
       })
-      .then(() => {
+      .then((user) => {
         navigation.navigate("Login")
         console.log("User account created");
+        return user
 
       })
+      .then(async (user) => {
+        try {
+         await setDoc(doc(db, "users", user.uid), {
+            name: name,
+            email: email,
+            uid: user.uid,
+            DOB: DOB,
+            gender: genderlist,
+          });
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+      })
       .catch(err => {
-        // const regex = /\(([^)]+)\)/;
-        // const match = regex.exec(err);
-        // const error = match[1];
+        const regex = /\(([^)]+)\)/;
+        const match = regex.exec(err);
+        const error = match[1];
 
-        // if (error === 'auth/email-already-in-use') {
-        //   console.log('Email already in use')
-        // }
+        if (error === 'auth/email-already-in-use') {
+          setErrorTxt('Email already in use')
+        }
 
         console.log(err)
       });
@@ -161,6 +179,8 @@ function Signup() {
         <InnerContainer>
           {currentStep === 1 && (
             <FormView>
+              <ErrTxt>{errorTxt}</ErrTxt>
+
               <TextView>Your email?</TextView>
 
               <FormInput
@@ -216,12 +236,12 @@ function Signup() {
               <TextView>What's your date of birth?</TextView>
 
               <FormPicker onPress={() => setDatePicker(true)}>
-                <FormTxt>{date.toDateString()}</FormTxt>
+                <FormTxt>{DOB.toDateString()}</FormTxt>
               </FormPicker>
 
               {DatePicker && (
                 <DateTimePicker
-                  value={date}
+                  value={DOB}
                   mode="date"
                   display="default"
                   onChange={pickedDate}

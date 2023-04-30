@@ -29,6 +29,13 @@ export const FormView = styled.View`
 padding: 20px;
 width: 100%;
 `
+export const ErrTxt = styled.Text`
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  padding-bottom: 10px;
+`
 
 export const TextView = styled.Text`
   color: #fff;
