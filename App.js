@@ -76,7 +76,16 @@ const App = () => {
             options={{ headerShown: false }} />
           
           <Stack.Screen name="Settings" component={Settings}
-            options={{ headerShown: false }} />
+            options={{
+              title: 'Settings',
+              headerStyle: {
+                backgroundColor: '#121933',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}  />
           {/* Contents */}
 
         </Stack.Navigator>

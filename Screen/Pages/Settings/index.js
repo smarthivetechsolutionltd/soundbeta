@@ -4,16 +4,18 @@ import { StyledContainer, InnerContainer } from "./Styles";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 
-function index() {
+function Index() {
   return (
     <>
       <StyledContainer>
         <StatusBar style="light" />
 
-        <InnerContainer></InnerContainer>
+        <InnerContainer>
+          
+        </InnerContainer>
       </StyledContainer>
     </>
   );
 }
 
-export default index;
+export default Index;
