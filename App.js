@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import "expo-dev-client"
+import Icon from 'react-native-vector-icons/Ionicons';
 
 //screens
 import Onboarding from "./Screen/Onboarding/Onboarding";
@@ -18,16 +19,13 @@ import HomePage from "./Screen/Pages/HomePage";
 import Library from "./Screen/Pages/Library";
 import Settings from "./Screen/Pages/Settings";
 import Search from "./Screen/Pages/Search";
-
-
-//firebase
-
+import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
-
+// const navigation = useNavigation();
 
 const App = () => {
-
   SplashScreen.preventAutoHideAsync();
   setTimeout(SplashScreen.hideAsync, 1000);
 
@@ -52,6 +50,7 @@ const App = () => {
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
+              headerTitleAlign: 'center',
             }} />
 
           <Stack.Screen name="Signup" component={Signup}
@@ -64,6 +63,7 @@ const App = () => {
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
+              headerTitleAlign: 'center',
             }}
           />
 
@@ -77,7 +77,17 @@ const App = () => {
             options={{ headerShown: false }} />
           
           <Stack.Screen name="Settings" component={Settings}
-            options={{ headerShown: false }} />
+            options={{
+              title: 'Settings',
+              headerStyle: {
+                backgroundColor: '#121933',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+              headerTitleAlign: 'center',
+            }} />
           
           <Stack.Screen name="Search" component={Search}
             options={{ headerShown: false }} />
