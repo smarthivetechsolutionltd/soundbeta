@@ -21,5 +21,51 @@ const styles = StyleSheet.create({
         // padding: 20,
         paddingTop: statusBarHeight,
     },
+
+    eachfile: {
+        backgroundColor: '#4C4C4C',
+        padding: 10,
+        marginTop: 2,
+        marginBottom: 2,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+
+
+    img: {
+        height: 50,
+        width: 50,
+        borderRadius: 2,
+        marginRight: 10,
+    },
+
+    title: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: White
+    },
+
+    controlContainer: {
+        flex: 1,
+        // backgroundColor: Secondary,
+        backgroundColor: Primary,
+        width: '100%',
+        position: 'absolute',
+        bottom: 0,
+        height: '16%',
+        display: 'flex',
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+        alignContent: 'center',
+        alignItems: 'center',
+        // paddingBottom: 25,
+        justifyContent: 'space-between',
+    },
+
+    homepageContainer: {
+        height: '84%',
+        width: '100%',
+    },
 });
 export default styles;

@@ -200,7 +200,7 @@ const HomePage = (props) => {
                     horizontal={false}>
                     <View style={styles.homeinnerContainer}>
                         <View style={styles.flex}>
-                            <Text style={styles.welcTxt}>Welcome, {name.split(' ')[1]}!</Text>
+                            <Text style={styles.welcTxt}>Welcome, {name}!</Text>
 
                             <View style={styles.flexRight}>
                                 {/* <TouchableOpacity style={styles.flexRightItm}>
