@@ -12,6 +12,7 @@ import { firebaseConfig } from "../config/Firebaseconfig";
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LottieView from 'lottie-react-native';
+import Toast from 'react-native-toast-message';
 
 
 function Login() {
@@ -44,7 +45,11 @@ function Login() {
           navigation.navigate("HomePage");
 
           console.log('Login successful');
-          ToastAndroid.show('Login successful', ToastAndroid.SHORT);
+          Toast.show({
+            type: 'success', // 'success', 'error', 'info', or 'none'
+            text1: 'Login successful',
+            position: 'bottom',
+          });
 
         } else {
           console.log('email not verified');
@@ -85,15 +90,34 @@ function Login() {
         setProgressDialog(false)
 
         if (error === 'auth/wrong-password') {
-          setErrorTxt('Wrong email or Password')
+          Toast.show({
+            type: 'error', // 'success', 'error', 'info', or 'none'
+            text1: 'Wrong email or Password',
+            position: 'bottom',
+          });
         }
 
         if (error === 'auth/network-request-failed') {
-          setErrorTxt('Network error, Please check your internet..')
+          Toast.show({
+            type: 'error', // 'success', 'error', 'info', or 'none'
+            text1: 'Network error, Please check your internet..',
+            position: 'bottom',
+          });
+        }
+
+        if (error === 'auth/invalid-email') {
+          Toast.show({
+            type: 'error', // 'success', 'error', 'info', or 'none'
+            text1: 'Wrong email or Password',
+            position: 'bottom',
+          });
         }
       });
+
+    
   }
 
+  
 
   return (
     <>
@@ -117,7 +141,7 @@ function Login() {
           
 
           <ErrTxt>{errorTxt}</ErrTxt>
-
+          
           <FormView>
             <TextView>Email</TextView>
 
@@ -155,6 +179,10 @@ function Login() {
           </Buttonborder> */}
         </InnerContainer>
       </StyledContainer>
+
+      <View>
+        <Toast ref={(ref) => Toast.setRef(ref)} config={{ position: 'bottom' }} />
+      </View>
     </>
   )
 }

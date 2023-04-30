@@ -17,6 +17,7 @@ import InitPage from "./Screen/Pages/InitPage";
 import HomePage from "./Screen/Pages/HomePage";
 import Library from "./Screen/Pages/Library";
 import Settings from "./Screen/Pages/Settings";
+import Search from "./Screen/Pages/Search";
 
 
 //firebase
@@ -76,16 +77,10 @@ const App = () => {
             options={{ headerShown: false }} />
           
           <Stack.Screen name="Settings" component={Settings}
-            options={{
-              title: 'Settings',
-              headerStyle: {
-                backgroundColor: '#121933',
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontWeight: 'bold',
-              },
-            }}  />
+            options={{ headerShown: false }} />
+          
+          <Stack.Screen name="Search" component={Search}
+            options={{ headerShown: false }} />
           {/* Contents */}
 
         </Stack.Navigator>

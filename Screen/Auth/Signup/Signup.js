@@ -16,6 +16,7 @@ import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../config/Firebaseconfig";
 import { useNavigation } from "@react-navigation/native";
 import LottieView from 'lottie-react-native';
+import Toast from 'react-native-toast-message';
 
 
 function Signup() {
@@ -40,7 +41,11 @@ function Signup() {
           if (signInMethods.length === 0) {
             setCurrentStep(currentStep + 1);
           } else {
-            setErrorTxt(`This email is already taken`);
+            Toast.show({
+              type: 'error', // 'success', 'error', 'info', or 'none'
+              text1: 'This email is already taken',
+              position: 'bottom',
+            });
           }
         })
         .catch((error) => {
@@ -136,7 +141,7 @@ function Signup() {
         const user = userCredentials.user
         sendEmailVerification(user).then(() => {
           console.log("Email verification sent");
-
+          
         })
 
         return user
@@ -144,6 +149,12 @@ function Signup() {
       .then((user) => {
         navigation.navigate("Login")
         console.log("User account created");
+        Toast.show({
+          type: 'error', // 'success', 'error', 'info', or 'none'
+          text1: 'Account Created successfully',
+          text2: 'Verification email has been sent',
+          position: 'bottom',
+        });
         return user
 
       })
@@ -188,8 +199,6 @@ function Signup() {
         <InnerContainer>
           {currentStep === 1 && (
             <FormView>
-              <ErrTxt>{errorTxt}</ErrTxt>
-
               <TextView>Your email?</TextView>
 
               <FormInput
@@ -377,6 +386,10 @@ function Signup() {
           )}
         </InnerContainer>
       </StyledContainer>
+
+      <View>
+        <Toast ref={(ref) => Toast.setRef(ref)} config={{ position: 'bottom' }} />
+      </View>
     </>
   );
 }
