@@ -117,7 +117,7 @@ function Settings() {
               </TouchableOpacity>
             )}
           </View>
-          <TouchableOpacity style={styles.saveButton} onPress={() => navigation.navigate("Login")}>
+          <TouchableOpacity style={styles.signOutBtn} onPress={() => navigation.navigate("Login")}>
                 <Text style={styles.buttonText}>Log Out</Text>
               </TouchableOpacity>
         </InnerContainer>
@@ -212,6 +212,15 @@ const styles = StyleSheet.create({
   imageIcon:{
     display:"flex",
     justifyContent:"center"
+  },
+  signOutBtn:{
+    color:"white",
+    marginTop: 20,
+    backgroundColor: "red",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+
   }
 
 
