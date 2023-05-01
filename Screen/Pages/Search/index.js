@@ -10,12 +10,13 @@ import styles from './Styles';
 import BottomNav from '../BottomNav';
 import { Audio } from 'expo-av';
 import { useNavigation } from "@react-navigation/native";
+import Toast from 'react-native-toast-message';
 
 
 const SearchPage = () => {
     const navigation = useNavigation();
     const [sound, setSound] = useState(null);
-    const [localMusic, setLocalMusic] = useState([])
+    const [tracks, setTracks] = useState([])
     const [play, setPlay] = useState(false);
     const [search, setSearch] = useState('');
     const [fetched, setFetch] = useState(false);
@@ -23,6 +24,47 @@ const SearchPage = () => {
     const [songName, setSongName] = useState(null);
     const [songImg, setSongImg] = useState(null);
     const [songArtist, setSongArtist] = useState(null);
+
+
+    const handleTextChange = (newText) => {
+        setSearch(newText);
+    };
+  
+    const searchsong = async () => {
+
+        if (search === '') {
+            Toast.show({
+                type: 'error', // 'success', 'error', 'info', or 'none'
+                text1: 'Search box is empty',
+                text2: 'Type something in the seachbox',
+                position: 'bottom',
+            });
+        } else {
+            const url = `https://spotify81.p.rapidapi.com/search?q=${search}&type=tracks&offset=0&limit=10&numberOfTopResults=5`;
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': 'b2baa3114dmsh8a19c18e2d16a11p10ab9cjsn4c85dfaf2b29',
+                    'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
+                }
+            };
+
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                console.log(result.tracks);
+
+                setUri(result.tracks[0].data.uri);
+                setSongArtist(result.tracks[0].data.artists.items[0].profile.name)
+                setSongImg(result.tracks[0].data.albumOfTrack.coverArt.sources[0].url)
+                setSongName(result.tracks[0].data.name)
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        
+    }
 
     const [lastPlaybackPosition, setLastPlaybackPosition] = useState(0);
     const playselected = async (item) => {
@@ -99,11 +141,12 @@ const SearchPage = () => {
                             <TextInput
                                 style={styles.input}
                                 value={search}
-                                placeholder={'Search for songs'}
+                                onChangeText={handleTextChange}
+                                placeholder={'Drake'}
                             />
                         </View>
 
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={()=>searchsong()}>
                             <Icon name="play" size={30} color="#fff" />
                         </TouchableOpacity>
                     </View>
@@ -119,6 +162,10 @@ const SearchPage = () => {
                     {/* <Text style={styles.txt}>PlayerController</Text> */}
                     <BottomNav />
                 </View>
+            </View>
+
+            <View>
+                <Toast ref={(ref) => Toast.setRef(ref)} config={{ position: 'bottom' }} />
             </View>
         </>
 
