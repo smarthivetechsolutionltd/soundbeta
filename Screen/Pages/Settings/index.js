@@ -11,6 +11,8 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import { AntDesign } from "@expo/vector-icons";
 
 function index() {
   const [name, setName] = useState("John Doe");
@@ -26,18 +28,39 @@ function index() {
     setEditable(false);
   };
 
+  const addImage = async () => {
+    let _image = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  };
+
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <>
         <StatusBar style="light" />
         <InnerContainer>
-          <View style={styles.container}>
-            <TouchableOpacity>
+          <View>
+
+            <View style={styles.ImageContainer}>
+
+            {image && (
               <Image
-                source={{ uri: "https:/`/picsum.photos/200" }}
-                style={styles.profilePicture}
+                source={{ uri: image }}
+                style={{ width: 200, height: 200 }}
               />
-            </TouchableOpacity>
+            )}
+            <View style={styles.uploadBtnContainer}>
+              <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
+                <Text style={styles.imageText}>{image ? "Edit" : "Upload"} Image</Text>
+                <View style={styles.imageIcon}>
+                <AntDesign name="camera" size={20} color="black"  />
+                </View>
+              </TouchableOpacity>
+            </View>
+            </View>
 
             <TouchableOpacity onPress={toggleEdit}>
               <Text style={styles.editBtn}>Edit</Text>
@@ -95,11 +118,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "white"
+    color: "white",
   },
   gender: {
     fontSize: 18,
-    color: "white"
+    color: "white",
   },
   input: {
     fontSize: 24,
@@ -110,7 +133,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     width: "80%",
     textAlign: "center",
-    color: "white"
+    color: "white",
   },
   saveButton: {
     marginTop: 20,
@@ -122,8 +145,49 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 18,
+    textAlign:"center",
     fontWeight: "bold",
   },
+  uploadBtnContainer: {
+    opacity: 0.7,
+    marginTop: 30,
+    textAlign:"center",
+    backgroundColor: "lightgrey",
+    width: "100%",
+    height: "25%", 
+  },
+
+  editBtn:{
+    color:"white",
+    fontSize: 20,
+    textAlign:"center",
+    marginTop:20
+  },
+
+  ImageContainer:{ 
+    elevation:2,
+    height:200,
+    width:200,
+    backgroundColor:'#efefef',
+    position:'relative',
+    borderRadius:999,
+    overflow:'hidden',
+    marginTop: 20,
+
+
+
+  },
+  imageText:{
+    textAlign:"center",
+    paddingTop: 10,
+  },
+  imageIcon:{
+    display:"flex",
+    justifyContent:"center"
+  }
+
+
 });
+
 
 export default index;
