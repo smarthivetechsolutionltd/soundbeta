@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyledContainer, InnerContainer } from "./Styles";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
@@ -13,12 +13,16 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
+import { getUserData } from '../../Auth/config/userData';
+import { useIsFocused } from '@react-navigation/native';
 
-function index() {
+
+function Settings() {
   const [name, setName] = useState("John Doe");
-  const [gender, setGender] = useState("Male");
+  const [gender, setGender] = useState("None");
   const [image, setImage] = useState("");
   const [editable, setEditable] = useState(false);
+  const [userData, setUserData] = useState([]);
 
   const toggleEdit = () => {
     setEditable(!editable);
@@ -26,6 +30,22 @@ function index() {
 
   const saveChanges = () => {
     setEditable(false);
+  };
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      handleRefresh();
+    }
+  }, [isFocused]);
+
+  function handleRefresh() {
+    getUserData().then((dataJSON) => {
+      setUserData(dataJSON);
+      setName(dataJSON.name);
+      setGender(dataJSON.gender)
+    });
   };
 
   const addImage = async () => {
@@ -194,4 +214,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default index;
+export default Settings;

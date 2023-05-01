@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Text, View, TouchableOpacity } from 'react-native'
 import styles from './Styles';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const SearchPage = () => {
 

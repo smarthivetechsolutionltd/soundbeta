@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, forwardRef } from 'react'
 import { View, Text, ToastAndroid } from 'react-native'
 import styles, { ErrTxt, ProgressDialog, StyledContainer, InnerContainer, FormView, TextView, FormInput, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite, Buttonborder, ButtonWhite } from "./Styles";
 import { StatusBar } from "expo-status-bar";
@@ -43,7 +43,6 @@ function Login() {
       .then((userCredentials) => {
         const user = userCredentials.user;
         if (user.emailVerified) {
-          navigation.navigate("HomePage");
 
           console.log('Login successful');
           Toast.show({
@@ -68,6 +67,8 @@ function Login() {
             AsyncStorage.setItem('userData', jsonString)
               .then(() => {
                 console.log('Data stored in local storage');
+          navigation.navigate("HomePage");
+
               })
               .catch(error => {
                 console.log('Error storing data in local storage', error);

@@ -6,11 +6,23 @@ import { Audio } from 'expo-av';
 
 
 const PlayerController = (props) => {
+
+    const [uri, setUri] = useState(require('./../../../assets/img/Logo.png'))
+
+    setTimeout(() => {
+        if (props.image !== null) {
+            setUri({ uri: props.image })
+        }
+
+    }, 5000);
+
+    
+
     
     return (
         <View style={styles.controllContainer}>
             <View style={styles.flex}>
-                <Image style={styles.img} source={{ uri: props.image }} />
+                <Image style={styles.img} source={ uri } />
                 <View style={styles.block}>
                     <Text style={styles.txtBig} numberOfLines={1} ellipsizeMode="tail" >{ props.name}</Text>
                     <Text style={styles.txt}>{props.artist}</Text>
@@ -26,11 +38,11 @@ const PlayerController = (props) => {
 
                 {props.play ? (
                     <TouchableOpacity style={styles.eachItem} onPress={() => props.onPause()}>
-                        <Icon name="pause" size={25} color="#fff" />
+                        <Icon name="pause" size={35} color="#fff" />
                     </TouchableOpacity>
                 ) : (
                         <TouchableOpacity style={styles.eachItem} onPress={() => props.onPlay()}>
-                        <Icon name="play" size={25} color="#fff" />
+                        <Icon name="play" size={35} color="#fff" />
                     </TouchableOpacity>
                 )}
 

@@ -168,25 +168,25 @@ const HomePage = (props) => {
     const [lastBackPressTime, setLastBackPressTime] = useState(0);
 
 //   handle backpress close app
-//   useEffect(() => {
-//     const backHandler = BackHandler.addEventListener(
-//       'hardwareBackPress',
-//       () => {
-//         const currentTime = new Date().getTime();
-//         if (currentTime - lastBackPressTime <= 1000) {
-//           BackHandler.exitApp();
-//           return true;
-//         }
-//         setLastBackPressTime(currentTime);
-//         ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
-//         return true;
-//       }
-//     );
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        const currentTime = new Date().getTime();
+        if (currentTime - lastBackPressTime <= 1000) {
+          BackHandler.exitApp();
+          return true;
+        }
+        setLastBackPressTime(currentTime);
+        ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
+        return true;
+      }
+    );
 
-//     return () => {
-//       backHandler.remove();
-//     };
-//   }, [lastBackPressTime]);
+    return () => {
+      backHandler.remove();
+    };
+  }, [lastBackPressTime]);
 
     return (
         <>
@@ -208,7 +208,7 @@ const HomePage = (props) => {
                                 </TouchableOpacity> */}
 
                                 <TouchableOpacity style={styles.flexRightItm} onPress={() => navigation.navigate("Settings")}>
-                                    <Icon name="settings" size={20} color="#fff" />
+                                    <Icon name="settings" size={25} color="#fff" />
                                 </TouchableOpacity>
 
                             </View>
