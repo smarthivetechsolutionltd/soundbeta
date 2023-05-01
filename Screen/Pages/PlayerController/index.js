@@ -34,7 +34,7 @@ const PlayerController = (props) => {
                     </TouchableOpacity>
                 )}
 
-                {props.fav ? (
+                {/* {props.fav ? (
                     <TouchableOpacity style={styles.eachItem} onPress={() => favBtn()}>
                         <Icon name="heart" size={25} color="#A10C0C" />
                     </TouchableOpacity>
@@ -42,7 +42,7 @@ const PlayerController = (props) => {
                         <TouchableOpacity style={styles.eachItem} onPress={() => favBtn()}>
                             <Icon name="heart-outline" size={25} color="#fff" />
                         </TouchableOpacity>       
-                )}
+                )} */}
 
             </View>
 
