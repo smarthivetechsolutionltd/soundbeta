@@ -164,7 +164,6 @@ function Login() {
               onChangeText={(text) => { checkinput(text) }}
               label="Password"
               keyboardType="default"
-    
               isPassword={true}
        
             />
