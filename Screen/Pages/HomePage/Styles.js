@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: Primary,
         // padding: 20,
-        paddingTop: statusBarHeight,
+        // paddingTop: statusBarHeight,
     },
 
     homeinnerContainer: {
