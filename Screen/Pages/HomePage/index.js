@@ -120,7 +120,7 @@ const HomePage = (props) => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'd46ad28ad5msh4d381300d03945bp151478jsn3a08154e08ba',
+                'X-RapidAPI-Key': 'b2baa3114dmsh8a19c18e2d16a11p10ab9cjsn4c85dfaf2b29',
                 'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
             }
         };
@@ -138,7 +138,7 @@ const HomePage = (props) => {
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': 'd46ad28ad5msh4d381300d03945bp151478jsn3a08154e08ba',
+                'X-RapidAPI-Key': 'b2baa3114dmsh8a19c18e2d16a11p10ab9cjsn4c85dfaf2b29',
                 'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
             }
         };
@@ -168,25 +168,26 @@ const HomePage = (props) => {
     const [lastBackPressTime, setLastBackPressTime] = useState(0);
 
 //   handle backpress close app
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        const currentTime = new Date().getTime();
-        if (currentTime - lastBackPressTime <= 1000) {
-          BackHandler.exitApp();
-          return true;
-        }
-        setLastBackPressTime(currentTime);
-        ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
-        return true;
-      }
-    );
+    
+//   useEffect(() => {
+//     const backHandler = BackHandler.addEventListener(
+//       'hardwareBackPress',
+//       () => {
+//         const currentTime = new Date().getTime();
+//         if (currentTime - lastBackPressTime <= 1000) {
+//           BackHandler.exitApp();
+//           return true;
+//         }
+//         setLastBackPressTime(currentTime);
+//         ToastAndroid.show('Press back again to exit', ToastAndroid.SHORT);
+//         return true;
+//       }
+//     );
 
-    return () => {
-      backHandler.remove();
-    };
-  }, [lastBackPressTime]);
+//     return () => {
+//       backHandler.remove();
+//     };
+//   }, [lastBackPressTime]);
 
     return (
         <>
@@ -258,10 +259,16 @@ const HomePage = (props) => {
                                 horizontal={true}>
 
                                 {playlist.slice(0, 10).map((item, key) => (
-                                    <View key={key} style={styles.eachItem}>
-                                        <Image source={{ uri: item.track.album.images[0].url }} style={styles.img} />
-                                        <Text numberOfLines={1} ellipsizeMode="tail" style={styles.textSmall}>{item.track.name}</Text>
-                                    </View>
+                                    <TouchableOpacity key={key} style={styles.eachItem} onPress={() => {
+                                        playselected(item);
+                                        setUri(item.track.preview_url);
+                                    }}>
+                                        <View key={key} style={styles.eachItem}>
+                                            <Image source={{ uri: item.track.album.images[0].url }} style={styles.img} />
+                                            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.textSmall}>{item.track.name}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    
                                 ))}
                             </ScrollView>
                         </View>

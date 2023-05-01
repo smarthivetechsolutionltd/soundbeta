@@ -9,8 +9,11 @@ import PlayerController from '../PlayerController';
 import styles from './Styles';
 import BottomNav from '../BottomNav';
 import { Audio } from 'expo-av';
+import { useNavigation } from "@react-navigation/native";
+
 
 const Library = () => {
+    const navigation = useNavigation();
     const [sound, setSound] = useState(null);
     const [localMusic, setLocalMusic] = useState([])
     const [play, setPlay] = useState(false);
@@ -37,7 +40,7 @@ const Library = () => {
             // album: asset.album,
             duration: asset.duration,
         }));
-        console.log(mediaFiles);
+        // console.log(mediaFiles);
         setLocalMusic(mediaFiles)
 
         setUri(mediaFiles[0].uri)
@@ -124,7 +127,8 @@ const Library = () => {
         <>
             <View style={styles.container}>
                 <TouchableOpacity style={{
-                    paddingLeft: 10, marginTop: 10, marginBottom: 10}}>
+                    paddingLeft: 10, marginTop: 10, marginBottom: 10
+                }} onPress={() => navigation.goBack()}>
                     <Icon name="chevron-back-outline" size={30} color="#fff" />
                 </TouchableOpacity>
 
