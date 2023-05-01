@@ -15,6 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
 import { getUserData } from '../../Auth/config/userData';
 import { useIsFocused } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 
 function Settings() {
@@ -116,6 +117,9 @@ function Settings() {
               </TouchableOpacity>
             )}
           </View>
+          <TouchableOpacity style={styles.saveButton} onPress={() => navigation.navigate("Login")}>
+                <Text style={styles.buttonText}>Log Out</Text>
+              </TouchableOpacity>
         </InnerContainer>
       </>
     </KeyboardAvoidingView>
