@@ -94,7 +94,7 @@ const SearchPage = () => {
                     <View style={styles.flex}>
                         <Text style={styles.title}>Search</Text>
                         <View style={styles.flex2}>
-                            <Icon name="search" size={20} color="#000" />
+                            <Icon name="search" size={18} color="#919191" />
 
                             <TextInput
                                 style={styles.input}

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flex2: {
         backgroundColor: White,
         width: '60%',
-        alignSelf: 'center',
+        alignItems: 'center',
         margin: 6,
         flexDirection: 'row',
         borderRadius: 5,
