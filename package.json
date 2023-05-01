@@ -30,6 +30,7 @@
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "firebase": "^9.21.0",
+    "formik": "^2.2.9",
     "install": "^0.13.0",
     "lottie-react-native": "5.1.4",
     "npx": "^10.2.2",

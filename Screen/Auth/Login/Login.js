@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, ToastAndroid } from 'react-native'
-import styles, { ErrTxt, ProgressDialog, StyledContainer, InnerContainer, FormView, FormInput, TextView, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite, Buttonborder, ButtonWhite } from "./Styles";
+import styles, { ErrTxt, ProgressDialog, StyledContainer, InnerContainer, FormView, TextView, FormInput, ButtonView, BtnTxt, SmallTxt, ButtonViewActive, ButtonViewinActive, BtnTxtinActive, BtnTxtActive, FormTxt, FormPicker, CreateButtonViewActive, CreateButtonViewinActive, SmallTxtWhite, Buttonborder, ButtonWhite } from "./Styles";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -12,6 +12,7 @@ import { firebaseConfig } from "../config/Firebaseconfig";
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LottieView from 'lottie-react-native';
+
 
 
 function Login() {
@@ -134,9 +135,14 @@ function Login() {
 
             <FormInput
               value={password}
+              icon="lock"
+              placeholder="* * * * * * *"
               onChangeText={(text) => { checkinput(text) }}
               label="Password"
               keyboardType="default"
+    
+              isPassword={true}
+       
             />
           </FormView>
 
@@ -157,6 +163,8 @@ function Login() {
       </StyledContainer>
     </>
   )
-}
+};
+
+
 
 export default Login
