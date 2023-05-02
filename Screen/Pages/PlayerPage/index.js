@@ -105,7 +105,7 @@ function PlayerPage({ route }) {
     try {
       const result = await Share.share({
         message:
-          `Check out this awesome song I am listening to on SoundBeta | *${name}* by *${artist}* ${link}`,
+          `Check out this awesome song I am listening to on *SoundBeta* | *${name}* by *${artist}* ${link}`,
         url: 'https://soundbeta.com',
         title: 'SoundBeta',
       });
