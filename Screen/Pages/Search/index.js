@@ -26,9 +26,38 @@ const SearchPage = () => {
     const [songArtist, setSongArtist] = useState(null);
 
 
+    useEffect(() => {
+        getTracks()
+    }, []);
+
     const handleTextChange = (newText) => {
         setSearch(newText);
     };
+
+    const getTracks = async () => {
+        const url = `https://spotify81.p.rapidapi.com/search?q=drake&type=tracks&offset=0&limit=30&numberOfTopResults=5`;
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'b2baa3114dmsh8a19c18e2d16a11p10ab9cjsn4c85dfaf2b29',
+                'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            setTracks(result.tracks)
+
+            setUri(result.tracks[0].data.uri);
+            setSongArtist(result.tracks[0].data.artists.items[0].profile.name)
+            setSongImg(result.tracks[0].data.albumOfTrack.coverArt.sources[0].url)
+            setSongName(result.tracks[0].data.name)
+        } catch (error) {
+            console.error(error);
+        }
+     }
+
   
     const searchsong = async () => {
 
@@ -40,7 +69,7 @@ const SearchPage = () => {
                 position: 'bottom',
             });
         } else {
-            const url = `https://spotify81.p.rapidapi.com/search?q=${search}&type=tracks&offset=0&limit=10&numberOfTopResults=5`;
+            const url = `https://spotify81.p.rapidapi.com/search?q=${search}&type=tracks&offset=0&limit=30&numberOfTopResults=5`;
             const options = {
                 method: 'GET',
                 headers: {
@@ -52,7 +81,8 @@ const SearchPage = () => {
             try {
                 const response = await fetch(url, options);
                 const result = await response.json();
-                console.log(result.tracks);
+                // console.log(result.tracks);
+                setTracks(result.tracks)
 
                 setUri(result.tracks[0].data.uri);
                 setSongArtist(result.tracks[0].data.artists.items[0].profile.name)
@@ -67,10 +97,34 @@ const SearchPage = () => {
     }
 
     const [lastPlaybackPosition, setLastPlaybackPosition] = useState(0);
+
+    const getUri = async (id) => {
+        const url = `https://spotify81.p.rapidapi.com/tracks?ids=${id}`;
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'b2baa3114dmsh8a19c18e2d16a11p10ab9cjsn4c85dfaf2b29',
+                'X-RapidAPI-Host': 'spotify81.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            // console.log(result.tracks[0].preview_url);
+            playselected(result.tracks[0]);
+
+            setSongArtist(result.tracks[0].artists[0].name)
+            setSongName(result.tracks[0].name)
+            setSongImg(result.tracks[0].album.images[0].url)
+
+            setUri(result.tracks[0].preview_url);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const playselected = async (item) => {
-        setSongArtist(item.artist)
-        // setSongImg(item.track.album.images[0].url)
-        setSongName(item.title)
 
         try {
             if (sound !== null) {
@@ -78,7 +132,7 @@ const SearchPage = () => {
             }
 
             const { sound: newSound } = await Audio.Sound.createAsync(
-                { uri: item.uri },
+                { uri: item.preview_url },
                 { shouldPlay: true }
             );
             setPlay(true)
@@ -154,7 +208,17 @@ const SearchPage = () => {
                         showsVerticalScrollIndicator={false}
                         alwaysBounceVertical={false}
                         horizontal={false}>
-                        
+                        <View>
+                            {tracks.map((item, key) => (
+                                <TouchableOpacity key={key} style={styles.eachfile} onPress={() => {
+                                    getUri(item.data.id)
+
+                                }}>
+                                    <Image source={{ uri: item.data.albumOfTrack.coverArt.sources[0].url}} style={styles.img} />
+                                    <Text style={styles.title}>{item.data.name}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
                     </ScrollView>
                 </View>
                 <View style={styles.controlContainer}>

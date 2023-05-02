@@ -15,6 +15,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { getUserData } from "../../Auth/config/userData";
 import { useIsFocused } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
+<<<<<<< HEAD
 import BottomNav from '../BottomNav';
 
 function Settings() {  
@@ -23,10 +24,18 @@ function Settings() {
 
 
   const [name, setName] = useState("");
+=======
+import * as Location from 'expo-location';
+
+const Settings = () => {
+  const [name, setName] = useState("John Doe");
+>>>>>>> 7f4f4e54a082aa20bdfbda72eae85b98f923e947
   const [gender, setGender] = useState("None");
   const [image, setImage] = useState("");
   const [editable, setEditable] = useState(false);
   const [userData, setUserData] = useState([]);
+  const [location, setLocation] = useState(null);
+
 
   const toggleEdit = () => {
     setEditable(!editable);
@@ -41,8 +50,45 @@ function Settings() {
   useEffect(() => {
     if (isFocused) {
       handleRefresh();
+      getCordinates();
     }
   }, [isFocused]);
+
+  const getCordinates = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      console.log('Permission to access location was denied');
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    const latitude = location.coords.latitude;
+    const longitude = location.coords.longitude;
+      // console.log(latitude,' --- ', longitude);
+    
+    getLocation(latitude, longitude)
+  }
+
+  const getLocation = async (latitude, longitude) => {
+    // console.log(latitude,' --- ', longitude);
+    const url = 'https://trueway-geocoding.p.rapidapi.com/ReverseGeocode?location=6.6545057%2C3.2783252&language=en';
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': 'b2baa3114dmsh8a19c18e2d16a11p10ab9cjsn4c85dfaf2b29',
+        'X-RapidAPI-Host': 'trueway-geocoding.p.rapidapi.com'
+      }
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      const address = `${result.results[0].house}, ${result.results[0].street}, ${result.results[0].neighborhood}, ${result.results[0].area}, ${result.results[0].region}, ${result.results[0].country}`;
+      setLocation(address);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   function handleRefresh() {
     getUserData().then((dataJSON) => {
@@ -125,6 +171,7 @@ function Settings() {
               </TouchableOpacity>
             )}
           </View>
+<<<<<<< HEAD
           <TouchableOpacity
             style={styles.signOutBtn}
             onPress={() => navigation.navigate("Login")}
@@ -138,6 +185,15 @@ function Settings() {
             <Text style={styles.buttonText}>Player</Text>
           </TouchableOpacity>
           
+=======
+
+          <View>
+            <Text style={styles.address}>{location}</Text>
+          </View>
+          <TouchableOpacity style={styles.signOutBtn} onPress={() => navigation.navigate("Login")}>
+                <Text style={styles.buttonText}>Log Out</Text>
+              </TouchableOpacity>
+>>>>>>> 7f4f4e54a082aa20bdfbda72eae85b98f923e947
         </InnerContainer>
             
 
@@ -241,7 +297,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
+<<<<<<< HEAD
   },
+=======
+
+  },
+
+  address: {
+    color: '#fff',
+    fontSize: 18,
+    padding: 10,
+    textAlign: 'center',
+  }
+
+
+>>>>>>> 7f4f4e54a082aa20bdfbda72eae85b98f923e947
 });
 
 export default Settings;
