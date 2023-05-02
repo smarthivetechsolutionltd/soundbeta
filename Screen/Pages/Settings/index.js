@@ -165,19 +165,19 @@ const Settings = () => {
               </TouchableOpacity>
             )}
           </View>
-         
-          <TouchableOpacity
+
+          {/* <TouchableOpacity
             style={styles.signOutBtn}
             onPress={() => navigation.navigate("Player")}
           >
             <Text style={styles.buttonText}>Player</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
 
           <View>
             <Text style={styles.address}>{location}</Text>
           </View>
-          
+
           <TouchableOpacity style={styles.signOutBtn} onPress={() => navigation.navigate("Login")}>
             <Text style={styles.buttonText}>Log Out</Text>
           </TouchableOpacity>

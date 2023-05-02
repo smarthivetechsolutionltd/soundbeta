@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import "expo-dev-client"
-import Icon from 'react-native-vector-icons/Ionicons';
 
 //screens
 import Onboarding from "./Screen/Onboarding/Onboarding";
@@ -76,7 +75,7 @@ const App = () => {
 
           <Stack.Screen name="Library" component={Library}
             options={{ headerShown: false }} />
-          
+
           <Stack.Screen name="Settings" component={Settings}
             options={{
               title: 'Settings',
@@ -89,10 +88,10 @@ const App = () => {
               },
               headerTitleAlign: 'center',
             }} />
-          
+
           <Stack.Screen name="Search" component={Search}
             options={{ headerShown: false }} />
-          
+
           <Stack.Screen name="Player" component={Player}
             options={{ headerShown: false }} />
 

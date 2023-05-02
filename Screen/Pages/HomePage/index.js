@@ -10,8 +10,8 @@ import { getUserData } from '../../Auth/config/userData';
 import { useNavigation } from "@react-navigation/native";
 
 
-const HomePage = (props) => {
-    const navigation = useNavigation();
+const HomePage = ({ navigation }) => {
+    // const navigation = useNavigation();
     const [sound, setSound] = useState(null);
     const [play, setPlay] = useState(false);
     const [fav, setFav] = useState(false);
@@ -56,7 +56,9 @@ const HomePage = (props) => {
     const playselected = async (item) => {
         setSongArtist(item.track.album.artists[0].name)
         setSongImg(item.track.album.images[0].url)
-        setSongName(item.track.name)
+        setSongName(item.track.name);
+
+        // setPlay(true)
 
         try {
             if (sound !== null) {
@@ -65,13 +67,21 @@ const HomePage = (props) => {
 
             const { sound: newSound } = await Audio.Sound.createAsync(
                 { uri: item.track.preview_url },
-                { shouldPlay: true }
+                // { shouldPlay: true }
             );
             setPlay(true)
             setSound(newSound);
         } catch (error) {
             console.log('Failed to play sound: ' + error);
         }
+
+        navigation.navigate('Player', {
+            img: item.track.album.images[0].url,
+            artist: item.track.album.artists[0].name,
+            name: item.track.name,
+            uri: item.track.preview_url,
+            link: item.track.external_urls.spotify,
+        })
     }
 
     async function playSound() {
@@ -242,7 +252,7 @@ const HomePage = (props) => {
                                     <TouchableOpacity key={key} style={styles.eachItem} onPress={() => {
                                         playselected(item);
                                         setUri(item.track.preview_url);
-
+                                        
                                     }}>
                                         <Image source={{ uri: item.track.album.images[0].url }} style={styles.img} />
                                         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.textSmall}>{item.track.name}</Text>
@@ -292,7 +302,9 @@ const HomePage = (props) => {
                 </ScrollView>
             </View>
             <View style={styles.controlContainer}>
-                <PlayerController play={play} onPlay={playSound} onPause={pauseSound} artist={songArtist} name={songName} image={songImg} />
+                <TouchableOpacity onPress={() => { playselected()}} style={{width: '100%', height: 65 }}>
+                    <PlayerController play={play} onPlay={playSound} onPause={pauseSound} artist={songArtist} name={songName} image={songImg} />
+                </TouchableOpacity>
                 {/* <Text style={styles.txt}>PlayerController</Text> */}
                 <BottomNav />
             </View>
