@@ -12,8 +12,9 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import PlayerController from "./PlayerController";
 import { Audio } from "expo-av";
-import Icon from "react-native-vector-icons/Ionicons";
+import { AntDesign, SimpleLineIcons, Entypo } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
+import BottomNav from './BottomNav';
 
 function PlayerPage() {
   const navigation = useNavigation();
@@ -73,29 +74,36 @@ function PlayerPage() {
     <View style={styles.mainContainer}>
       <StatusBar style="light" />
 
-      <View style={styles.upperContainer}></View>
+      <View style={styles.upperContainer}>
+        <SimpleLineIcons
+          name="arrow-down"
+          size={30}
+          color="white"
+          style={{ padding: 5 }}
+        />
 
-      <View>
-        <Image style={styles.imageContainer} source={{ uri: image }} />
+        <TouchableOpacity>
+        <Entypo name="share" size={30} color="white" style={{}} />
+        </TouchableOpacity>
+        
+      </View>
+
+      <View style={styles.imageContainer}>
+        <Image  source={{ uri: image }} />
       </View>
 
       <View style={styles.nameFav}>
-        <Text style={styles.musicName}>{}</Text>
+        <Text style={styles.musicName}>Artist Name</Text>
         <TouchableOpacity style={styles.flexRightItm}>
-          <Icon name="love" size={25} color="#fff" />
+          <AntDesign name="hearto" size={30} color="white" style={{}} />
         </TouchableOpacity>
       </View>
 
       <View style={styles.controlContainer}>
-        <PlayerController
-          play={play}
-          //   onPlay={playSound}
-          onPause={pauseSound}
-          artist={songArtist}
-          //   name={songName}
-          //   image={songImg}
-        />
-      </View>
+                <PlayerController play={play} onPlay={playSound} onPause={pauseSound} artist={songArtist} name={songName} image={songImg} />
+                {/* <Text style={styles.txt}>PlayerController</Text> */}
+                <BottomNav />
+            </View>
     </View>
   );
 }
@@ -104,27 +112,54 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "#121933",
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    paddingTop: 40
   },
 
   upperContainer: {
     display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 10,
   },
 
-  nameFav: {},
+  nameFav: {
+    display:"flex",
+    flexDirection:"row",
+    justifyContent:"space-between",
+    marginTop: 40,
+    padding: 20,
+  },
 
   imageContainer: {
     borderColor: "white",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    borderWidth: 1,
+    width: "70%",
+    padding: 100,
+    display:"flex",
+    marginLeft: "auto",
+    marginRight:"auto",
+    justifyContent:"center",
+    marginTop: 20
   },
 
   musicName: {
     fontSize: 20,
     color: "white",
   },
+  controlContainer: {
+    flex: 1,
+    backgroundColor: "#121933",
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    height: '16%',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+},
 });
 
 export default PlayerPage;
