@@ -15,21 +15,13 @@ import { AntDesign } from "@expo/vector-icons";
 import { getUserData } from "../../Auth/config/userData";
 import { useIsFocused } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
-<<<<<<< HEAD
 import BottomNav from '../BottomNav';
-
-function Settings() {  
-  
-  const navigation = useNavigation();
-
-
-  const [name, setName] = useState("");
-=======
 import * as Location from 'expo-location';
 
 const Settings = () => {
+  const navigation = useNavigation();
+
   const [name, setName] = useState("John Doe");
->>>>>>> 7f4f4e54a082aa20bdfbda72eae85b98f923e947
   const [gender, setGender] = useState("None");
   const [image, setImage] = useState("");
   const [editable, setEditable] = useState(false);
@@ -64,8 +56,8 @@ const Settings = () => {
     let location = await Location.getCurrentPositionAsync({});
     const latitude = location.coords.latitude;
     const longitude = location.coords.longitude;
-      // console.log(latitude,' --- ', longitude);
-    
+    // console.log(latitude,' --- ', longitude);
+
     getLocation(latitude, longitude)
   }
 
@@ -112,7 +104,7 @@ const Settings = () => {
   };
 
   return (
-    
+
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <>
         <StatusBar style="light" />
@@ -126,18 +118,20 @@ const Settings = () => {
                 />
               )}
               <View style={styles.uploadBtnContainer}>
-                
+
 
                 <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
                   <Text style={styles.imageText}>
                     {image ? "Edit" : "Upload"} Image
                   </Text>
                   <View style={styles.imageIcon}>
-                    <AntDesign name="camera" size={20} color="black" style={{ display:"flex",
-                  justifyContent:"center", textAlign:"center"}} />
+                    <AntDesign name="camera" size={20} color="black" style={{
+                      display: "flex",
+                      justifyContent: "center", textAlign: "center"
+                    }} />
                   </View>
                 </TouchableOpacity>
-             
+
               </View>
             </View>
 
@@ -171,7 +165,7 @@ const Settings = () => {
               </TouchableOpacity>
             )}
           </View>
-<<<<<<< HEAD
+          {/* <<<<<<< HEAD
           <TouchableOpacity
             style={styles.signOutBtn}
             onPress={() => navigation.navigate("Login")}
@@ -184,25 +178,23 @@ const Settings = () => {
           >
             <Text style={styles.buttonText}>Player</Text>
           </TouchableOpacity>
-          
-=======
+======= */}
 
           <View>
             <Text style={styles.address}>{location}</Text>
           </View>
           <TouchableOpacity style={styles.signOutBtn} onPress={() => navigation.navigate("Login")}>
-                <Text style={styles.buttonText}>Log Out</Text>
-              </TouchableOpacity>
->>>>>>> 7f4f4e54a082aa20bdfbda72eae85b98f923e947
+            <Text style={styles.buttonText}>Log Out</Text>
+          </TouchableOpacity>
         </InnerContainer>
-            
 
-        
+
+
       </>
-      
+
     </KeyboardAvoidingView>
 
-    
+
   );
 }
 
@@ -297,10 +289,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
-<<<<<<< HEAD
-  },
-=======
-
   },
 
   address: {
@@ -311,7 +299,6 @@ const styles = StyleSheet.create({
   }
 
 
->>>>>>> 7f4f4e54a082aa20bdfbda72eae85b98f923e947
 });
 
 export default Settings;
