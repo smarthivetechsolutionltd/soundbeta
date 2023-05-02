@@ -88,6 +88,8 @@ const SearchPage = () => {
                 setSongArtist(result.tracks[0].data.artists.items[0].profile.name)
                 setSongImg(result.tracks[0].data.albumOfTrack.coverArt.sources[0].url)
                 setSongName(result.tracks[0].data.name)
+
+                getUri(result.tracks[0].data.id)
             } catch (error) {
                 console.error(error);
             }
@@ -223,7 +225,6 @@ const SearchPage = () => {
                 </View>
                 <View style={styles.controlContainer}>
                     <PlayerController play={play} onPlay={playSound} onPause={pauseSound} artist={songArtist} name={songName} image={songImg} />
-                    {/* <Text style={styles.txt}>PlayerController</Text> */}
                     <BottomNav />
                 </View>
             </View>
