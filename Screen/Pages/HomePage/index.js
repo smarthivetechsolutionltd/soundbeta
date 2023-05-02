@@ -270,8 +270,8 @@ const HomePage = ({ navigation }) => {
 
                                 {playlist.slice(0, 10).map((item, key) => (
                                     <TouchableOpacity key={key} style={styles.eachItem} onPress={() => {
-                                        // playselected(item);
-                                        console.log(item.track.preview_url);
+                                        playselected(item);
+                                        setUri(item.track.preview_url);
                                     }}>
                                         <View key={key} style={styles.eachItem}>
                                             <Image source={{ uri: item.track.album.images[0].url }} style={styles.img} />
