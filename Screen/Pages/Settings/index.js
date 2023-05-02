@@ -12,13 +12,17 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { AntDesign } from "@expo/vector-icons";
-import { getUserData } from '../../Auth/config/userData';
-import { useIsFocused } from '@react-navigation/native';
+import { getUserData } from "../../Auth/config/userData";
+import { useIsFocused } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
+import BottomNav from '../BottomNav';
+
+function Settings() {  
+  
+  const navigation = useNavigation();
 
 
-function Settings() {
-  const [name, setName] = useState("John Doe");
+  const [name, setName] = useState("");
   const [gender, setGender] = useState("None");
   const [image, setImage] = useState("");
   const [editable, setEditable] = useState(false);
@@ -44,9 +48,9 @@ function Settings() {
     getUserData().then((dataJSON) => {
       setUserData(dataJSON);
       setName(dataJSON.name);
-      setGender(dataJSON.gender)
+      setGender(dataJSON.gender);
     });
-  };
+  }
 
   const addImage = async () => {
     let _image = await ImagePicker.launchImageLibraryAsync({
@@ -62,28 +66,33 @@ function Settings() {
   };
 
   return (
+    
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <>
         <StatusBar style="light" />
         <InnerContainer>
           <View>
-
             <View style={styles.ImageContainer}>
+              {image && (
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: 200, height: 200 }}
+                />
+              )}
+              <View style={styles.uploadBtnContainer}>
+                
 
-            {image && (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 200, height: 200 }}
-              />
-            )}
-            <View style={styles.uploadBtnContainer}>
-              <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
-                <Text style={styles.imageText}>{image ? "Edit" : "Upload"} Image</Text>
-                <View style={styles.imageIcon}>
-                <AntDesign name="camera" size={20} color="black"  />
-                </View>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity onPress={addImage} style={styles.uploadBtn}>
+                  <Text style={styles.imageText}>
+                    {image ? "Edit" : "Upload"} Image
+                  </Text>
+                  <View style={styles.imageIcon}>
+                    <AntDesign name="camera" size={20} color="black" style={{ display:"flex",
+                  justifyContent:"center", textAlign:"center"}} />
+                  </View>
+                </TouchableOpacity>
+             
+              </View>
             </View>
 
             <TouchableOpacity onPress={toggleEdit}>
@@ -116,12 +125,28 @@ function Settings() {
               </TouchableOpacity>
             )}
           </View>
-          <TouchableOpacity style={styles.signOutBtn} onPress={() => navigation.navigate("Login")}>
-                <Text style={styles.buttonText}>Log Out</Text>
-              </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.signOutBtn}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <Text style={styles.buttonText}>Log Out</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.signOutBtn}
+            onPress={() => navigation.navigate("Player")}
+          >
+            <Text style={styles.buttonText}>Player</Text>
+          </TouchableOpacity>
+          
         </InnerContainer>
+            
+
+        
       </>
+      
     </KeyboardAvoidingView>
+
+    
   );
 }
 
@@ -172,58 +197,51 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 18,
-    textAlign:"center",
+    textAlign: "center",
     fontWeight: "bold",
   },
   uploadBtnContainer: {
     opacity: 0.7,
     marginTop: 30,
-    textAlign:"center",
+    textAlign: "center",
     backgroundColor: "lightgrey",
     width: "100%",
-    height: "25%", 
+    height: "25%",
   },
 
-  editBtn:{
-    color:"white",
+  editBtn: {
+    color: "white",
     fontSize: 20,
-    textAlign:"center",
-    marginTop:20
-  },
-
-  ImageContainer:{ 
-    elevation:2,
-    height:200,
-    width:200,
-    backgroundColor:'#efefef',
-    position:'relative',
-    borderRadius:999,
-    overflow:'hidden',
+    textAlign: "center",
     marginTop: 20,
-
-
-
   },
-  imageText:{
-    textAlign:"center",
+
+  ImageContainer: {
+    elevation: 2,
+    height: 200,
+    width: 200,
+    backgroundColor: "#efefef",
+    position: "relative",
+    borderRadius: 999,
+    overflow: "hidden",
+    marginTop: 20,
+  },
+  imageText: {
+    textAlign: "center",
     paddingTop: 10,
   },
-  imageIcon:{
-    display:"flex",
-    justifyContent:"center"
+  imageIcon: {
+    display: "flex",
+    justifyContent: "center",
   },
-  signOutBtn:{
-    color:"white",
+  signOutBtn: {
+    color: "white",
     marginTop: 20,
     backgroundColor: "red",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
-
-  }
-
-
+  },
 });
-
 
 export default Settings;

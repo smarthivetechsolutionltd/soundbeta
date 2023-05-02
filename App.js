@@ -19,6 +19,7 @@ import HomePage from "./Screen/Pages/HomePage";
 import Library from "./Screen/Pages/Library";
 import Settings from "./Screen/Pages/Settings";
 import Search from "./Screen/Pages/Search";
+import Player from "./Screen/Pages/PlayerPage";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -91,6 +92,10 @@ const App = () => {
           
           <Stack.Screen name="Search" component={Search}
             options={{ headerShown: false }} />
+          
+          <Stack.Screen name="Player" component={Player}
+            options={{ headerShown: false }} />
+
           {/* Contents */}
 
         </Stack.Navigator>
