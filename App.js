@@ -19,8 +19,6 @@ import Library from "./Screen/Pages/Library";
 import Settings from "./Screen/Pages/Settings";
 import Search from "./Screen/Pages/Search";
 import Player from "./Screen/Pages/PlayerPage";
-import { TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 // const navigation = useNavigation();
