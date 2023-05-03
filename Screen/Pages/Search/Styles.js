@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%',
         backgroundColor: Primary,
-        // padding: 20,
-        paddingTop: statusBarHeight,
+        paddingTop: 50,
+        // paddingTop: statusBarHeight,
     },
 
     eachfile: {

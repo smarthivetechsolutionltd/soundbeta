@@ -129,7 +129,11 @@ function PlayerPage({ route }) {
       <StatusBar style="light" />
 
       <View style={styles.upperContainer}>
-        <Icon name="chevron-down" size={40} color="white" />
+     
+
+      <TouchableOpacity onPress={() => navigation.navigate("HomePage")}>
+          <AntDesign name="arrowleft" size={30} color="white" />
+        </TouchableOpacity>
 
         <TouchableOpacity onPress={onShare}>
           <Entypo name="share" size={30} color="white" />
